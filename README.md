@@ -7,4 +7,4 @@ The optimal structure for each neural network will be found by modifying the dif
 
 The accuracy of the results from the ensemble ANN models will be compared with the individual optimal ANN models. The datasets which required to train, validate and test the network will be gathered from Bank Negara Malaysia website.
 
-For more infomation, please visit [**this Presentation Slides**][https://docs.google.com/presentation/d/1m9pZClslKSyQQ-nwjuojCsFIyv21bJ6UiRBnUwra83w/edit?usp=sharing]. 
+For more infomation, please visit [**this Presentation Slides**](https://docs.google.com/presentation/d/1m9pZClslKSyQQ-nwjuojCsFIyv21bJ6UiRBnUwra83w/edit?usp=sharing). 
