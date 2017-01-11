@@ -20,8 +20,7 @@ model <- trainr(Y=output_matrix,
                 X=input_try,
                 learningrate   =  0.1,
                 sigmoid = "logistic",
-                use_bias = T,
-                hidden_dim  = 10
+                hidden_dim  = 4
 )
 
 ## Testing

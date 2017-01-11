@@ -3,7 +3,7 @@
 
 source("requried_functions_N_libraries.R")
 source("Data_Processing.R")
-dataset<- Data_Processing("/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv",3,"Euro")
+dataset<- Data_Processing("/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv",3,"U.S. Dollar")
 train_dataset <- dataset[[1]]
 test_dataset <- dataset[[2]]
 date <- dataset[[3]]
@@ -12,7 +12,7 @@ usd_non_normalize <- dataset[[4]]
 ## HOMOGENEOUS MODEL
 ## Train the network using neuralnet (First MLP)
 exchange_model <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
-                            data = train_dataset, hidden = 2)
+                            data = train_dataset, hidden = 3)
 
 model_results <- neuralnet::compute(exchange_model, test_dataset[1:3])
 predicted_oneDayhead <- model_results$net.result
@@ -20,6 +20,11 @@ predict_value <- denormalized(predicted_oneDayhead)
 actual <- denormalized(test_dataset[,4])
 error <- actual - predict_value
 hist(actual - predict_value)
+rmse(error)
+mae(error)
+size =length(train_dataset[,1])
+weight <- sample(1:1000,size = size,replace = F)
+weight = normalizeData(weight, type = "0_1")
 ## Second MLP
 exchange_model2 <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
                             data = train_dataset, hidden = 2)
@@ -27,8 +32,11 @@ exchange_model2 <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
 model_results2 <- neuralnet::compute(exchange_model2, test_dataset[1:3])
 predicted_oneDayhead2 <- model_results2$net.result
 predict_value2 <- denormalized(predicted_oneDayhead2)
+actual <- denormalized(test_dataset[,4])
 error2 <- actual - predict_value2
-
+hist(actual - predict_value2)
+rmse(error2)
+mae(error2)
 ## Third MLP
 exchange_model3 <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
                             data = train_dataset, hidden = 2)
