@@ -21,7 +21,7 @@ actual <- denormalized(test_dataset[,4])
 error <- actual - predict_value
 ## Second MLP
 exchange_model2 <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
-                            data = train_dataset, hidden = 2)
+                             data = train_dataset, hidden = 2)
 
 model_results2 <- neuralnet::compute(exchange_model2, test_dataset[1:3])
 predicted_oneDayhead2 <- model_results2$net.result
@@ -30,17 +30,29 @@ error2 <- actual - predict_value2
 
 ## Third MLP
 exchange_model3 <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
-                            data = train_dataset, hidden = 2)
+                             data = train_dataset, hidden = 2)
 
 model_results3 <- neuralnet::compute(exchange_model3, test_dataset[1:3])
 predicted_oneDayhead3 <- model_results3$net.result
 predict_value3 <- as.data.frame(denormalized(predicted_oneDayhead3))
 error3 <- actual - predict_value3
 
+
+## Homogeneous predicted_data and errors
 all_predicted <- c(predict_value,predict_value2,predict_value3)
 all_predicted <-as.data.frame(all_predicted)
 names(all_predicted)<- c("First MLP", "Second MLP", "Third MLP")
 
+## Final Fusion Funtion
+min_value <-apply(all_predicted,1, min)
+max_value <- apply(all_predicted,1,max)
+mean_value <- apply(all_predicted,1,mean)
+
+error_min <- actual - min_value
+error_max <- actual - max_value
+error_mean <- actual - mean_value
+
+error_all_after_fusion <- as.data.frame(cbind(error_min,error_max,error_mean))
 
 ## Denormalizeing process and error calculation (NeuralNet with 1 hidden node)
 predict_value <- as.vector(denormalized(predicted_oneDayhead))
@@ -72,3 +84,4 @@ names(data_error_hidden2) <- c("MLP_One_Error","MLP_Two_Error","MLP_Three_Error"
 # Writing to xlsx file
 library(xlsx)
 write.xlsx(data_result, "data_result.xlsx")
+write.xlsx(error_all_after_fusion, "error_all_after_fusion.xlsx")
