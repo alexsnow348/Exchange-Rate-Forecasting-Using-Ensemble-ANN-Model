@@ -1,6 +1,6 @@
 # Exchange Rate Forecasting Using Ensemble ANN Model
 
-The forecasting is mainly done by using :
+The forecasting is mainly done by using three different ANN network models namely:
 
 * Multilayer Perceptrons (MLP)
 * Recurrent Neural Network (RNN)
