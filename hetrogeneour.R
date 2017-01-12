@@ -14,9 +14,10 @@ usd_non_normalize <- dataset[[4]]
 exchange_model <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
                             data = train_dataset, hidden = 2)
 
+
 model_results <- neuralnet::compute(exchange_model, test_dataset[1:3])
 predicted_oneDayhead <- model_results$net.result
-predict_value <- as.data.frame(denormalized(predicted_oneDayhead))
+predict_value <- denormalized(predicted_oneDayhead)
 actual <- denormalized(test_dataset[,4])
 error <- actual - predict_value
 
@@ -77,3 +78,4 @@ names(data_error_hidden2) <- c("MLP_One_Error","MLP_Two_Error","MLP_Three_Error"
 library(xlsx)
 write.xlsx(data_result, "data_result.xlsx")
 write.xlsx(error_all_after_fusion, "error_all_after_fusion.xlsx")
+hist(error)
