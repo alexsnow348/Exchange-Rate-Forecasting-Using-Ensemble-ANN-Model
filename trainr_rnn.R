@@ -35,10 +35,10 @@ test_input_day1 <- as.matrix(test_dataset[,1])
 test_input_day2 <- as.matrix(test_dataset[,2])
 test_input_day3 <- as.matrix(test_dataset[,3])
 
-test_input_try <- array( c(test_input_day1,test_input_day2,test_input_day3) , dim=c(dim(test_input_day3),3) )
+test_input_try <- array( c(test_input_day1,test_input_day2,test_input_day3), dim=c(dim(test_input_day3),3) )
 
 test_result <- predictr(model, test_input_try )
-predict_value <- (denormalized(test_result))
+predict_value <- denormalized(test_result)
 actual <- denormalized(test_dataset[,4])
 error <- actual - predict_value
 hist( actual-predict_value )
