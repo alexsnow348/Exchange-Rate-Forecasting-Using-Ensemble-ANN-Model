@@ -3,7 +3,7 @@
 ## Function Parameters
 ## Datasource_url: "/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv"
 ## Predictor order : 1-10
-## Currency : "U.S. Dollar" / "Australian Dolla"/ "Canadian Dollar"/"Euro"
+## Currency : "U.S. Dollar" / "Australian Dollar"/ "Canadian Dollar"/"Euro"
 ##            "Pound Sterling"/"Singapore Dollar"/"Swiss Franc"
 
 ## Return Outcomes

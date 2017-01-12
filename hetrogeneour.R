@@ -15,6 +15,8 @@ test_dataset <- dataset[[2]]
 date <- dataset[[3]]
 usd_non_normalize <- dataset[[4]]
 
+
+
 ## HETROGENEOUS  MODEL
 ## Train the network using neuralnet (First network:  MLP)
 
