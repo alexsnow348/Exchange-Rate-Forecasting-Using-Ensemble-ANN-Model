@@ -32,6 +32,8 @@ rmse(error)
 mae(error)
 hist(error)
 
+
+
 ## Traini the network using RNN (Second network: RNN)
 
 ## Training
