@@ -11,8 +11,12 @@ usd_non_normalize <- dataset[[4]]
 
 ## HOMOGENEOUS MODEL
 ## Train the network using neuralnet (First MLP)
+set.seed(1)
+weight_size =length(train_dataset[,1])
+weight <- sample(1:1000,size = weight_size,replace = F)
+weight = normalizeData(weight, type = "0_1")
 exchange_model <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
-                            data = train_dataset, hidden = 3)
+                            data = train_dataset, hidden = 3 , startweights = weight , learningrate = 0.1)
 
 model_results <- neuralnet::compute(exchange_model, test_dataset[1:3])
 predicted_oneDayhead <- model_results$net.result
@@ -22,9 +26,8 @@ error <- actual - predict_value
 hist(actual - predict_value)
 rmse(error)
 mae(error)
-size =length(train_dataset[,1])
-weight <- sample(1:1000,size = size,replace = F)
-weight = normalizeData(weight, type = "0_1")
+
+
 ## Second MLP
 exchange_model2 <- neuralnet(oneDayAhead ~ firstDay + secondDay + thirdDay,
                             data = train_dataset, hidden = 2)
