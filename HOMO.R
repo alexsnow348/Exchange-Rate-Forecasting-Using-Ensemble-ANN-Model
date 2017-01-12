@@ -11,11 +11,7 @@
 
 # Return Values 
 # 
-predictor_order <- 4
-learning_rate <- 0.1
-train_dataset <- data_pre_ord_4[[1]]
-test_dataset <- data_pre_ord_4[[2]]
-usd_non_normalize <- data_pre_ord_4[[4]]
+
 
 HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate){
         source("MLP.R")
@@ -62,7 +58,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         all_predicted <-as.data.frame(all_predicted)
         names(all_predicted)<- c("First MLP", "Second MLP", "Third MLP")
         
-        actual <- denormalized(test_dataset[,predictor_order+1])
+        actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
         
         min_value <-apply(all_predicted,1, min)
         max_value <- apply(all_predicted,1,max)
@@ -88,15 +84,15 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
        mae_rate <- min(mae_max,mae_mean,mae_min)
        
        if(rmse_rate == rmse_max && mae_rate == mae_max){
-               final_result = list(max_value,error_max)
+               final_result = list(max_value,error_max,"MAX",rmse_rate,mae_rate)
        }
        
        if(rmse_rate == rmse_min && mae_rate == mae_min){
-               final_result = list(min_value,error_min)
+               final_result = list(min_value,error_min,"MIN",rmse_rate,mae_rate)
        }
        
        if(rmse_rate == rmse_mean && mae_rate == mae_mean){
-                final_result = list(mean_value,error_mean)       
+                final_result = list(mean_value,error_mean,"MEAN",rmse_rate,mae_rate)       
        }
         
        return(final_result)

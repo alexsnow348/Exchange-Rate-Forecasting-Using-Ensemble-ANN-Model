@@ -22,8 +22,8 @@ RBF <- function(train_dataset, test_dataset, usd_non_normalize, predictor_order,
         data<-rbftrain(train_input,neurons,train_output, alfa= learning_rate , it= 1000, sigma=NaN,visual = F)
         result <- rbf(test_input,data$weight,data$dist,data$neurons,data$sigma)
         result <- as.vector(result)
-        result <- denormalized(result)
-        test_actual <- denormalized(test_actual)
+        result <- denormalized(result,usd_non_normalize)
+        test_actual <- denormalized(test_actual,usd_non_normalize)
         error <- test_actual - result
         rmse(error)
         mae(error)

@@ -57,8 +57,8 @@ MLP <- function(train_dataset,test_dataset,usd_non_normalize, predictor_order, l
         # Testing and Error Result
         model_results <- neuralnet::compute(exchange_model, test_dataset[1:predictor_order])
         predicted_oneDayhead <- model_results$net.result
-        predict_value <- denormalized(predicted_oneDayhead)
-        actual <- denormalized(test_dataset[,predictor_order+1])
+        predict_value <- denormalized(predicted_oneDayhead,usd_non_normalize)
+        actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
         error <- actual - predict_value
         final_result <- list(predict_value,error)
         return(final_result)

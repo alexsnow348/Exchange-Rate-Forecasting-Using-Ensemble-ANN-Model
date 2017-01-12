@@ -46,7 +46,7 @@ normalized <- function(x){
         return(normalized_x)
 };
 
-denormalized <- function(x){
+denormalized <- function(x,usd_non_normalize){
         denormalized_x <- x * (max(usd_non_normalize)-min(usd_non_normalize))+min(usd_non_normalize)
 };
 
