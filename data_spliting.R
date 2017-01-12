@@ -1,5 +1,6 @@
 
 # Loading required funtions and pre-processing the data set
+
 data_spliting <- function(){
         
         source("requried_functions_N_libraries.R")
@@ -18,103 +19,77 @@ data_spliting <- function(){
         
         # To hold the dataframe for each prediction_order
         dataset_list <- list()
-        
-        for (i in 1:7){
+        data_frame_usd <- list()
+        data_frame_aus <- list()
+        data_frame_can <- list()
+        data_frame_euro <- list()
+        data_frame_pon <- list()
+        data_frame_sin <- list()
+        data_frame_swi <- list()
+        for(i in 1:7){
+                
                 if (i == 1) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[1])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[1])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[1])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[1])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[1])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[1])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[1])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[1])
-                        dataset_list_usd  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_usd
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[1])
+                                data_frame_usd[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_usd
                 }
                 
                 if (i == 2) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[2])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[2])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[2])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[2])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[2])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[2])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[2])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[2])
-                        dataset_list_aus  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_aus
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[2])
+                                data_frame_aus[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_aus
                 }
                 
                 if (i == 3) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[3])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[3])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[3])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[3])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[3])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[3])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[3])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[3])
-                        dataset_list_can  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_can
-                }
-                if (i == 4) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[4])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[4])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[4])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[4])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[4])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[4])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[4])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[4])
-                        dataset_list_euro  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_euro
-                }
-                if (i == 5) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[5])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[5])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[5])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[5])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[5])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[5])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[5])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[5])
-                        dataset_list_pou  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_pou
-                }
-                if (i == 6) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[6])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[6])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[6])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[6])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[6])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[6])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[6])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[6])
-                        dataset_list_sin  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_sin
-                }
-                if (i == 7) {
-                        data_frame_3 <- Data_Processing(url,predictor_order[1],currency[7])
-                        data_frame_4 <- Data_Processing(url,predictor_order[2],currency[7])
-                        data_frame_5 <- Data_Processing(url,predictor_order[3],currency[7])
-                        data_frame_6 <- Data_Processing(url,predictor_order[4],currency[7])
-                        data_frame_7 <- Data_Processing(url,predictor_order[5],currency[7])
-                        data_frame_8 <- Data_Processing(url,predictor_order[6],currency[7])
-                        data_frame_9 <- Data_Processing(url,predictor_order[7],currency[7])
-                        data_frame_10 <- Data_Processing(url,predictor_order[8],currency[7])
-                        dataset_list_swi  <- c(data_frame_3,data_frame_4,data_frame_5,data_frame_6,data_frame_7,data_frame_8,data_frame_9,data_frame_10)
-                        dataset_list[[i]] <- dataset_list_swi
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[3])
+                                data_frame_can[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_can
                 }
                 
-                return(dataset_list)
+                if (i == 4) {
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[4])
+                                data_frame_euro[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_euro
+                }
+                
+                if (i == 5) {
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[5])
+                                data_frame_pon[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_pon
+                }
+                
+                if (i == 6) {
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[6])
+                                data_frame_sin[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_sin
+                }
+                if (i == 7) {
+                        for(j in 1:8){
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[7])
+                                data_frame_swi[[j]] <- data_frame
+                        }
+                        
+                        dataset_list[[i]]<- data_frame_swi
+                }
         }
+        
+        return(dataset_list)
 }
-
-
-
-
-
-
-
-
