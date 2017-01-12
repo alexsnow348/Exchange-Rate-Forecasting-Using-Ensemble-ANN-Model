@@ -17,9 +17,9 @@ RBF <- function(train_dataset, test_dataset, usd_non_normalize, predictor_order,
         test_input <- as.matrix(test_dataset[,1:predictor_order])
         test_actual <- as.vector(test_dataset[,predictor_order+1])
         
-        neurons <- predictor_order+1/2;
-        ## Not run: 
-        data<-rbftrain(train_input,neurons,train_output, alfa= 0.1, it= 1000, sigma=NaN,visual = F)
+        neurons <- ceiling((predictor_order+1)/2);
+         
+        data<-rbftrain(train_input,neurons,train_output, alfa= learning_rate , it= 1000, sigma=NaN,visual = F)
         result <- rbf(test_input,data$weight,data$dist,data$neurons,data$sigma)
         result <- as.vector(result)
         result <- denormalized(result)
@@ -27,7 +27,7 @@ RBF <- function(train_dataset, test_dataset, usd_non_normalize, predictor_order,
         error <- test_actual - result
         rmse(error)
         mae(error)
-        final_result <- c(result,error)
+        final_result <- list(predict_value,error)
         return(final_result)
 }
 

@@ -24,7 +24,7 @@ MLP <- function(train_dataset,test_dataset,usd_non_normalize, predictor_order, l
         predict_value <- denormalized(predicted_oneDayhead)
         actual <- denormalized(test_dataset[,predictor_order+1])
         error <- actual - predict_value
-        final_result <- c(predict_value,error)
+        final_result <- list(predict_value,error)
         return(final_result)
 }
 
