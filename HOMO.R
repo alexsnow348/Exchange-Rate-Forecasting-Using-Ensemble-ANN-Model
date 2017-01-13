@@ -26,8 +26,8 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight1)
         
         ## First performance ERROR
-        mae(first[[2]])
-        rmse(first[[2]])
+        first_mae <- mae(first[[2]])
+        first_rmse<- rmse(first[[2]])
         
         ## SECOND MLP
         set.seed(2)
@@ -38,8 +38,8 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight2)
         
         ## Second Performance ERROR
-        mae(second[[2]])
-        rmse(second[[2]])
+       second_mae<- mae(second[[2]])
+       second_rmse<-  rmse(second[[2]])
         
         ## THIRD MLP
         set.seed(3)
@@ -50,8 +50,8 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         third <-  first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight3)
         
         ## Third Performance ERROR
-        mae(third[[2]])
-        rmse(third[[2]])
+        third_mae <- mae(third[[2]])
+        third_rmse <- rmse(third[[2]])
         
         ## Predicted Value from all Three Network
         all_predicted <- cbind(first[[1]],second[[1]],third[[1]])
@@ -72,7 +72,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         names(error_all_after_fusion) <- c("MIN","MAX","MEAN")
         
         
-    
+        
         rmse_min <- rmse(error_all_after_fusion$MIN)
         mae_min <- mae(error_all_after_fusion$MIN)
         rmse_max <- rmse(error_all_after_fusion$MAX)
@@ -80,21 +80,21 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         rmse_mean <- rmse(error_all_after_fusion$MEAN)
         mae_mean<- mae(error_all_after_fusion$MEAN)
         
-       rmse_rate <- min(rmse_min,rmse_max,rmse_mean)
-       mae_rate <- min(mae_max,mae_mean,mae_min)
-       
-       if(rmse_rate == rmse_max && mae_rate == mae_max){
-               final_result = list(max_value,error_max,"MAX",rmse_rate,mae_rate)
-       }
-       
-       if(rmse_rate == rmse_min && mae_rate == mae_min){
-               final_result = list(min_value,error_min,"MIN",rmse_rate,mae_rate)
-       }
-       
-       if(rmse_rate == rmse_mean && mae_rate == mae_mean){
-                final_result = list(mean_value,error_mean,"MEAN",rmse_rate,mae_rate)       
-       }
+        rmse_rate <- min(rmse_min,rmse_max,rmse_mean)
+        mae_rate <- min(mae_max,mae_mean,mae_min)
         
-       return(final_result)
+        if(rmse_rate == rmse_max && mae_rate == mae_max){
+                final_result = list(max_value,error_max,"MAX",rmse_rate,mae_rate)
+        }
+        
+        if(rmse_rate == rmse_min && mae_rate == mae_min){
+                final_result = list(min_value,error_min,"MIN",rmse_rate,mae_rate)
+        }
+        
+        if(rmse_rate == rmse_mean && mae_rate == mae_mean){
+                final_result = list(mean_value,error_mean,"MEAN",rmse_rate,mae_rate)       
+        }
+        
+        return(final_result)
         
 }
