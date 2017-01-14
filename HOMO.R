@@ -25,10 +25,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         source("MLP1.R")
         require(RSNNS)
 ## FIRST MLP
-        set.seed(1)
-        weight_size =length(train_dataset[,1])
-        weight1 <- sample(1:10,size = weight_size,replace = T)
-        weight1 = normalizeData(weight1, type = "0_1")
+ 
         
         ## Train the network using neuralnet (First MLP)
         first <- MLP1( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight1)

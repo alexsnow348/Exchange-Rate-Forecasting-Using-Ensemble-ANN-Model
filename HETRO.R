@@ -48,7 +48,7 @@ HETRO <- function(){
         weight3 = normalizeData(weight3, type = "0_1")
         
         ## Train the network using neuralnet (First MLP)
-        third <-  first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight3)
+        third <-  first <- RBF(train_dataset, test_dataset, usd_non_normalize, predictor_order, learning_rate)
         
         ## Third Performance ERROR
         third_mae <- mae(third[[2]])
