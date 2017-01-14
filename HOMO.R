@@ -24,7 +24,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         neurons <- 3
         source("MLP1.R")
         require(RSNNS)
-        ## FIRST MLP
+## FIRST MLP
         set.seed(1)
         weight_size =length(train_dataset[,1])
         weight1 <- sample(1:10,size = weight_size,replace = T)
@@ -37,7 +37,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         first_mae <- mae(first[[2]])
         first_rmse<- rmse(first[[2]])
         
-        ## SECOND MLP
+## SECOND MLP
         set.seed(2)
         weight_size =length(train_dataset[,1])
         weight2 <- sample(1:1000,size = weight_size,replace = F)
@@ -49,7 +49,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
        second_mae<- mae(second[[2]])
        second_rmse<-  rmse(second[[2]])
         
-        ## THIRD MLP
+## THIRD MLP
         set.seed(3)
         weight_size =length(train_dataset[,1])
         weight3 <- sample(1:1000,size = weight_size,replace = F)
@@ -61,7 +61,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         third_mae <- mae(third[[2]])
         third_rmse <- rmse(third[[2]])
         
-        ## Predicted Value from all Three Network
+## Predicted Value from all Three Network
         all_predicted <- cbind(first[[1]],second[[1]],third[[1]])
         all_predicted <-as.data.frame(all_predicted)
         names(all_predicted)<- c("First MLP", "Second MLP", "Third MLP")
