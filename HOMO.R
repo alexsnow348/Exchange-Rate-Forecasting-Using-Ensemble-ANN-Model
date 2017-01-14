@@ -14,16 +14,24 @@
 
 
 HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate){
-        source("MLP.R")
+        data_try_4 <-data_set[[1]][[2]]
+        train_dataset <- data_try_4[[1]]
+        test_dataset <- data_try_4[[2]]
+        test_date <- data_try_4[[3]]
+        usd_non_normalize<- data_try_4[[4]]
+        actual_data<- test_dataset[,5]
+        predictor_order <- 4
+        neurons <- 3
+        source("MLP1.R")
         require(RSNNS)
         ## FIRST MLP
         set.seed(1)
         weight_size =length(train_dataset[,1])
-        weight1 <- sample(1:1000,size = weight_size,replace = F)
+        weight1 <- sample(1:10,size = weight_size,replace = T)
         weight1 = normalizeData(weight1, type = "0_1")
         
         ## Train the network using neuralnet (First MLP)
-        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight1)
+        first <- MLP1( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight1)
         
         ## First performance ERROR
         first_mae <- mae(first[[2]])
