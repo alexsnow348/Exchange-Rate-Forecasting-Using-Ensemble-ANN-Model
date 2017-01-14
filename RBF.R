@@ -10,16 +10,14 @@
 # Return Values 
 # Predicted Value and Error Results
 
-RBF <- function(train_dataset, test_dataset, usd_non_normalize, predictor_order, learning_rate){
+RBF <- function(train_dataset, test_dataset, usd_non_normalize,neurons, predictor_order, learning_rate){
         require("neural")
         train_input <- as.matrix(train_dataset[,1:predictor_order])
         train_output <- as.matrix(train_dataset[,predictor_order+1])
         test_input <- as.matrix(test_dataset[,1:predictor_order])
         test_actual <- as.vector(test_dataset[,predictor_order+1])
-        
-        neurons <- ceiling((predictor_order+1)/2);
          
-        data<-rbftrain(train_input,neurons,train_output, alfa= learning_rate , it= 1000, sigma=NaN,visual = F)
+        data<-rbftrain(train_input,neurons,train_output, alfa= learning_rate , it= 100, sigma=NaN,visual = F)
         result <- rbf(test_input,data$weight,data$dist,data$neurons,data$sigma)
         result <- as.vector(result)
         result <- denormalized(result,usd_non_normalize)

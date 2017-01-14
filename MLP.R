@@ -11,9 +11,9 @@
 # Predicted Value and Error Results
 
 
-MLP <- function(train_dataset,test_dataset,usd_non_normalize, predictor_order, learning_rate, weights){
+MLP <- function(train_dataset,test_dataset,usd_non_normalize, predictor_order,hidden_neurons, learning_rate, weights){
         require("neuralnet")
-        hidden_neurons = ceiling((predictor_order + 1)/2)
+        
         
         # Training
         if(predictor_order == 3){

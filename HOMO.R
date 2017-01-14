@@ -13,22 +13,17 @@
 # 
 
 
-HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate){
-        data_try_4 <-data_set[[1]][[2]]
-        train_dataset <- data_try_4[[1]]
-        test_dataset <- data_try_4[[2]]
-        test_date <- data_try_4[[3]]
-        usd_non_normalize<- data_try_4[[4]]
-        actual_data<- test_dataset[,5]
-        predictor_order <- 4
-        neurons <- 3
-        source("MLP1.R")
-        require(RSNNS)
+HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_order,learning_rate){
+        source("MLP.R")
+       
 ## FIRST MLP
- 
+        set.seed(1)
+        weight_size =length(train_dataset[,1])
+        weight1 <- sample(1:1000,size = weight_size,replace = F)
+        weight1 = normalized(weight1)
         
         ## Train the network using neuralnet (First MLP)
-        first <- MLP1( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight1)
+        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order, neurons,learning_rate,weight1)
         
         ## First performance ERROR
         first_mae <- mae(first[[2]])
@@ -38,9 +33,9 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         set.seed(2)
         weight_size =length(train_dataset[,1])
         weight2 <- sample(1:1000,size = weight_size,replace = F)
-        weight2 = normalizeData(weight2, type = "0_1")
+        weight2 = normalized(weight2)
         ## Train the network using neuralnet (First MLP)
-        second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight2)
+        second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight2)
         
         ## Second Performance ERROR
        second_mae<- mae(second[[2]])
@@ -50,9 +45,9 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,predictor_order,le
         set.seed(3)
         weight_size =length(train_dataset[,1])
         weight3 <- sample(1:1000,size = weight_size,replace = F)
-        weight3 = normalizeData(weight3, type = "0_1")
+        weight3 = normalized(weight3)
         ## Train the network using neuralnet (First MLP)
-        third <-  first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,learning_rate,weight3)
+        third <-  MLP(train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight3)
         
         ## Third Performance ERROR
         third_mae <- mae(third[[2]])

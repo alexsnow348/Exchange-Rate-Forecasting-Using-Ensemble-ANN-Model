@@ -12,7 +12,7 @@
 RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate){
         
         require("rnn")
-        require("RSNNS")
+       
 
 ## Training
         input_array_1 <- list()
@@ -24,7 +24,7 @@ RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, 
         input_array_1 <- as.numeric(input_array_1)
         output_matrix <- as.matrix(train_dataset[,predictor_order+1])
         
-        input_try <- array( input_array_1, dim=c(dim(input_day1),predictor_order) )
+        input_try <- array( input_array_1, dim=c(dim(input_day),predictor_order) )
         output_try <- array(output_matrix, dim=c(dim(output_matrix),1))
         
         model <- trainr(Y=output_matrix,
@@ -32,7 +32,7 @@ RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, 
                         learningrate   =  0.1,
                         sigmoid = "logistic",
                         hidden_dim  = ceiling((predictor_order+1)/2),
-                        numepochs = 200
+                        numepochs = 50
                         
         )
         

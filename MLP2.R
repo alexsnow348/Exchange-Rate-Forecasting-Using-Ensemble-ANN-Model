@@ -12,4 +12,10 @@ train_input <- as.matrix(train_dataset[,1:4])
 train_output <- as.matrix(train_dataset[,5])
 test_input <- as.matrix(test_dataset[,1:4])
 
-model <- ml
+model <- mlp(train_input,train_output, size = 9, maxit = 300,learnFuncParams = c(0.1,0) )
+#summary(model)
+result <- predict(model,test_input)
+result_nor <-denormalized(result,usd_non_normalize)
+error <- actual_data - result_nor
+rmse(error)
+
