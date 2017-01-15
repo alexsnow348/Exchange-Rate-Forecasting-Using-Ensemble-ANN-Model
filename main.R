@@ -76,11 +76,10 @@ source("HOMO.R")
         
         
 ## For Looping whole procrocess
+Result_USD_HOMO_LIST <- list()
+count <- 1
+### Changes in Neurons and Learning Functins and Learning Rate
 
-### Changes in Neurons
-        
-    
-        
                 for (i in 1:length(predictor_order)) {
                         result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                                           "MAE"=numeric(),"Learning_Function"=character(),"Learning_Rate"=numeric(),
@@ -121,46 +120,21 @@ source("HOMO.R")
                                                 result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
                                                                                                    result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                                                                    learning_func[k],learning_rate[l])
+                                                
+                                                Result_USD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                                      learning_func[k], result_usd_PO3[[j]])
+                                                count <- count +1
                                         }
-                               
-                                write <- paste0("result_HOMO_usd_PO_",i,"_LF_",learning_func[k],"_LR_",learning_rate[l],".xlsx")
-                                write.xlsx(result_HOMO_usd_PO3, write)
+                                        
+                                # Writing to xlsx file
+                                #write <- paste0("result_HOMO_usd_PO_",i,"_LF_",learning_func[k],"_LR_",learning_rate[l],".xlsx")
+                                #write.xlsx(result_HOMO_usd_PO3, write)
                         }
                 }
                 
          }
-        
-### Changes in Learning Rate
-        
-### Changes in 
-        
-        
-       
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
 #************************************************************ HETROGENEOUS *************************************************************************#
 source("HETRO.R")
         
@@ -186,8 +160,6 @@ source("HETRO.R")
           }
 
 
-
-# Writing to xlsx file
 
 
 
