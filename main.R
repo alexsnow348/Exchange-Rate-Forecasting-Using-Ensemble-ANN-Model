@@ -1,6 +1,6 @@
 
-#***************************************** MAIN *************************************************#
-
+#*********************************************************  MAIN ********************************************************************************#
+library(xlsx)
 # Loading required funtions and pre-processing the data set
 source("data_spliting.R")
 
@@ -40,6 +40,108 @@ source("HOMO.R")
 
         }
         names(result_HOMO_usd) <- c("Predictor_Order","Neurons","RMSE","MAE","Learning_Rate")
+        write.xlsx(result_HOMO_usd, "")
+        
+### Changes in Neuron
+        
+        # Predictor Order 3
+        
+        result_HOMO_usd_PO3 <- data.frame()
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        neurons <- seq(3,20,1)
+        
+        result_usd_PO3 <- list()
+        
+        for (i in 1:length(neurons)) {
+                
+              
+                train_dataset_PO3 <- data_set[[1]][[7]][[1]]
+                test_dataset_PO3 <- data_set[[1]][[7]][[2]]
+                test_date_PO3 <- data_set[[1]][[7]][[3]]
+                usd_non_normalize_PO3 <- data_set[[1]][[7]][[4]]
+                actual_usd_PO3 <- test_dataset[[1]][,4]
+             
+                
+                result_usd_PO3[[i]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, neurons = neurons[i], 9, learning_rate)
+                result_HOMO_usd_PO3 <-rbind(result_HOMO_usd_PO3, c(9,neurons[i], result_usd_PO3[[i]][4],result_usd_PO3[[i]][5],learning_rate)) 
+                
+        }
+        names(result_HOMO_usd_PO3) <- c("Predictor_Order","Neurons","RMSE","MAE","Learning_Rate")
+        write.xlsx(result_HOMO_usd_PO3, "result_HOMO_usd_PO3.xlsx")
+        
+        
+## For Looping whole procrocess
+
+### Changes in Neurons
+        
+        for (i in 1:length(predictor_order)) {
+                result_HOMO_usd_PO3 <- data.frame()
+                usd_non_normalize_PO3 <- data.frame()
+                test_date_PO3 <- data.frame()
+                actual_usd_PO3 <- data.frame()
+                
+                result_usd_PO3 <- list()
+                
+                train_dataset[[i]] <- data_set[[1]][[i]][[1]]
+                test_dataset[[i]] <- data_set[[1]][[i]][[2]]
+                test_date[[i]] <- data_set[[1]][[i]][[3]]
+                usd_non_normalize[[i]]<- data_set[[1]][[i]][[4]]
+                actual_usd[[i]] <- test_dataset[[i]][,i+3]
+                
+                if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+                if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+                if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+                if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+                if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+                if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+                if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+                if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+                
+                for (j in 1:length(neurons)) {
+                        train_dataset_PO3 <- train_dataset[[i]]
+                        test_dataset_PO3 <- test_dataset[[i]]
+                        test_date_PO3 <- test_date[[i]]
+                        usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                        actual_usd_PO3 <-  actual_usd[[i]]
+                        
+                        result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, neurons = neurons[j], predictor_order[i], learning_rate)
+                        result_HOMO_usd_PO3 <-rbind(result_HOMO_usd_PO3, c(predictor_order[i],neurons[j], result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],learning_rate)) 
+                }
+                
+                names(result_HOMO_usd_PO3) <- c("Predictor_Order","Neurons","RMSE","MAE","Learning_Rate")
+                write <- paste0("result_HOMO_usd_PO",i,".xlsx")
+                write.xlsx(result_HOMO_usd_PO3, write)
+                
+                
+        }
+        
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
 #************************************************************ HETROGENEOUS *************************************************************************#
 source("HETRO.R")
@@ -68,7 +170,7 @@ source("HETRO.R")
 
 
 # Writing to xlsx file
-library(xlsx)
-write.xlsx(result_towrite, "old_MLP_result.xlsx")
+
+
 
 
