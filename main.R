@@ -79,9 +79,13 @@ source("HOMO.R")
 
 ### Changes in Neurons
         
-        for (i in 1:length(predictor_order)) {
-                result_HOMO_usd_PO3 <- data.frame()
-                usd_non_normalize_PO3 <- data.frame()
+    
+        
+                for (i in 1:length(predictor_order)) {
+                        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                                                          "MAE"=numeric(),"Learning_Function"=character(),"Learning_Rate"=numeric(),
+                                                          stringsAsFactors=FALSE)
+                        usd_non_normalize_PO3 <- data.frame()
                 test_date_PO3 <- data.frame()
                 actual_usd_PO3 <- data.frame()
                 
@@ -102,23 +106,29 @@ source("HOMO.R")
                 if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
                 if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
                 
-                for (j in 1:length(neurons)) {
-                        train_dataset_PO3 <- train_dataset[[i]]
-                        test_dataset_PO3 <- test_dataset[[i]]
-                        test_date_PO3 <- test_date[[i]]
-                        usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                        actual_usd_PO3 <-  actual_usd[[i]]
-                        
-                        result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, neurons = neurons[j], predictor_order[i], learning_rate)
-                        result_HOMO_usd_PO3 <-rbind(result_HOMO_usd_PO3, c(predictor_order[i],neurons[j], result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],learning_rate)) 
+                for (l in 1:length(learning_rate) ){     
+                                for (k in 1:length(learning_func)) {
+                                        
+                                        for (j in 1:length(neurons)) {
+                                                train_dataset_PO3 <- train_dataset[[i]]
+                                                test_dataset_PO3 <- test_dataset[[i]]
+                                                test_date_PO3 <- test_date[[i]]
+                                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                                actual_usd_PO3 <-  actual_usd[[i]]
+                                                
+                                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                                             neurons = neurons[j], predictor_order[i], learning_func[k],learning_rate[l])
+                                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                                                                                   result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                                                                   learning_func[k],learning_rate[l])
+                                        }
+                               
+                                write <- paste0("result_HOMO_usd_PO_",i,"_LF_",learning_func[k],"_LR_",learning_rate[l],".xlsx")
+                                write.xlsx(result_HOMO_usd_PO3, write)
+                        }
                 }
                 
-                names(result_HOMO_usd_PO3) <- c("Predictor_Order","Neurons","RMSE","MAE","Learning_Rate")
-                write <- paste0("result_HOMO_usd_PO",i,".xlsx")
-                write.xlsx(result_HOMO_usd_PO3, write)
-                
-                
-        }
+         }
         
 ### Changes in Learning Rate
         
