@@ -11,9 +11,12 @@
 
 # Return Values 
 # 
+set.seed(1)
+weight_size =length(train_dataset_PO3[,1])
+weight1 <- sample(1:1000,size = weight_size,replace = F)
+weight1 = normalized(weight1)
 
-
-HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_order,learning_rate){
+HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_order,learning_func,learning_rate){
         source("MLP.R")
        
 ## FIRST MLP
@@ -23,7 +26,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         weight1 = normalized(weight1)
         
         ## Train the network using neuralnet (First MLP)
-        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order, neurons,learning_rate,weight1)
+        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order, neurons,learning_rate,learning_func,weight1)
         
         ## First performance ERROR
         first_mae <- mae(first[[2]])
@@ -35,7 +38,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         weight2 <- sample(1:1000,size = weight_size,replace = F)
         weight2 = normalized(weight2)
         ## Train the network using neuralnet (First MLP)
-        second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight2)
+        second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,learning_func,weight2)
         
         ## Second Performance ERROR
        second_mae<- mae(second[[2]])
@@ -47,7 +50,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         weight3 <- sample(1:1000,size = weight_size,replace = F)
         weight3 = normalized(weight3)
         ## Train the network using neuralnet (First MLP)
-        third <-  MLP(train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight3)
+        third <-  MLP(train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,learning_func,weight3)
         
         ## Third Performance ERROR
         third_mae <- mae(third[[2]])

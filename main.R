@@ -16,13 +16,16 @@ test_dataset <- list()
 predictor_order <- seq(3,10,1)
 test_date <- list()
 
-learning_rate <- 0.1
+learning_rate <- seq(0.1,1,0.1)
+learning_func <- as.character(learning_func)
 
 #************************************************************ HOMOGENEOUS *************************************************************************#
 source("HOMO.R")
 
 #USD_ONLY MODEL (HOMO)
-        result_HOMO_usd <- data.frame()
+        result_HOMO_usd <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                                      "MAE"=numeric(),"Learning_Rate"=numeric(),"Learning_Function"=character(),
+                                      stringsAsFactors=FALSE)
         usd_non_normalize <- list()
         result_usd <- list()
         actual_usd <- list()
@@ -35,13 +38,13 @@ source("HOMO.R")
                 actual_usd[[i]] <- test_dataset[[i]][,i+3]
                 neurons <- ceiling((i+3)/2)
                 
-                result_usd[[i]] <-  HOMO(train_dataset[[i]],test_dataset[[i]],usd_non_normalize[[i]], neurons = neurons, predictor_order[i], learning_rate)
-                result_HOMO_usd <-rbind(result_HOMO_usd, c(i+2,ceiling((predictor_order[i]+1)/2), result_usd[[i]][4],result_usd[[i]][5],learning_rate)) 
+                result_usd[[i]] <-  HOMO(train_dataset[[i]],test_dataset[[i]],usd_non_normalize[[i]], 
+                                         neurons = neurons, predictor_order[i],learning_func[2], learning_rate[i])
+                result_HOMO_usd[i,] <- c(i+2,ceiling((predictor_order[i]+1)/2), result_usd[[i]][4],
+                                                           result_usd[[i]][5],learning_rate[i],learning_func[2]) 
 
         }
-        names(result_HOMO_usd) <- c("Predictor_Order","Neurons","RMSE","MAE","Learning_Rate")
-        write.xlsx(result_HOMO_usd, "")
-        
+     
 ### Changes in Neuron
         
         # Predictor Order 3
@@ -116,6 +119,11 @@ source("HOMO.R")
                 
                 
         }
+        
+### Changes in Learning Rate
+        
+### Changes in 
+        
         
        
         
