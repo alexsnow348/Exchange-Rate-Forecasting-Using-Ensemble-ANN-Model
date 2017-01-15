@@ -31,7 +31,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         first_rmse<- rmse(first[[2]])
         
 ## SECOND RNN
-        seond <- RNN(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate)
+        second <- RNN(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate)
         
         ## Second Performance ERROR
         second_mae<- mae(second[[2]])
@@ -48,9 +48,9 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         
         
 ## Hetrogeneous  predicted_data and errors
+        
         all_predicted <- cbind(first[[1]],second[[1]],third[[1]])
         all_predicted <-as.data.frame(all_predicted)
-        names(all_predicted)<- c("First MLP", "Second MLP", "Third MLP")
         
         actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
         
@@ -89,5 +89,8 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
                 final_result = list(mean_value,error_mean,"MEAN",rmse_rate,mae_rate)       
         }
         
-        return(final_result)
+        return(final_result) 
+        
+        
+        
 }
