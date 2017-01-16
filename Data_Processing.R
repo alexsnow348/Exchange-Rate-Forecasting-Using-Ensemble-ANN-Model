@@ -7,12 +7,12 @@
 ##            "Pound Sterling"/"Singapore Dollar"/"Swiss Franc"
 
 ## Return Outcomes
-## Date for predicted day, Test Dataset, Train Dataset
+## Date for predicted day, Test Dataset, Train Dataset, Valadition Data Set
 
 
 #Training variables
 Data_Processing <- function(datasource_url, predictor_order, ex_currency){ 
-                                                                                
+        
         alldata = tbl_df(read.csv(datasource_url))
         usd = filter(alldata, currency ==ex_currency)
         newdata = tbl_df(usd)
@@ -24,10 +24,10 @@ Data_Processing <- function(datasource_url, predictor_order, ex_currency){
         train_data = training_data(result, usd_value)
         vector_train = as.vector(train_data$USD,"any")
         matrix_train <- matrix(vector_train, nrow = predictor_order, ncol = length(vector_train)/predictor_order)
-      
+        
         #Class Variable
         test_data =  testing_data(result,usd_value)
-       
+        
         
         #input_train 60 % && output_train 60 %
         train_until = ceiling(length(matrix_train)*0.6/predictor_order)
@@ -50,6 +50,13 @@ Data_Processing <- function(datasource_url, predictor_order, ex_currency){
         new_input = t(testing_input)
         test_input = as.data.frame(new_input)
         test_dataset = cbind(test_input, testing_output)
+      
+        ## Seperating TEST and VALIDATE dataset 20% each
+        test_data_end <- ceiling(length(test_dataset$USD)*0.5)
+        test_data = test_dataset[1:test_data_end, ]
+        validate_start = test_data_end+1
+        validate_data = test_dataset[validate_start:length(test_dataset$USD),]
+        
         
         #Nameing columns
         if (predictor_order==3){
@@ -95,10 +102,21 @@ Data_Processing <- function(datasource_url, predictor_order, ex_currency){
         #Predicted Date
         Date = createTimeSlices(usd$Date, predictor_order, 1, fixedWindow = T)
         date = testing_data(Date,usd)
-        test_date = as.data.frame(date[test_end:length(test_data$USD),]$Date)
-        names(test_date)= "Date"
-        
-        output <- list(train_dataset,test_dataset,test_date,usd_non_normalize)
+        testing_date = date[test_end:length(date$Value),]$Date
+        testing_date_list <- list(lapply(testing_date, as.character))
+       
+        i <- 1
+        testing_date <- data_frame("Date"= character())
+        for (i in 1:length(testing_date_list[[1]])) {
+                testing_date[i,] <- c(testing_date_list[[1]][[i]])
+        }
+       
+        test_data_end <- ceiling(length(test_dataset$firstDay)*0.5)
+        test_date = testing_date[1:test_data_end,]
+        validate_start = test_data_end+1
+        validate_date = testing_date[validate_start:length(testing_date$Date),]
+       
+        output <- list(train_dataset,test_data,validate_data,test_date,validate_date, usd_non_normalize)
         
         
 }

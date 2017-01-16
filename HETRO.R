@@ -12,7 +12,7 @@
 # Return Values 
 # 
 
-HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_order,learning_rate){
+HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_order,activation_function, learning_rate){
         source("MLP.R")
         source("RNN.R")
         source("RBF.R")
@@ -23,8 +23,8 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         weight1 <- sample(1:10,size = weight_size,replace = T)
         weight1 = normalized(weight1)
         
-        ## Train the network using neuralnet (First MLP)
-        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,weight1)
+        ## Train the network using neuralnet 
+        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,activation_function,weight1)
         
         ## First performance ERROR
         first_mae <- mae(first[[2]])
@@ -39,7 +39,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
 
 ## THIRD RBF
       
-        ## Train the network using neuralnet (First MLP)
+        ## Train the network using neuralnet 
         third <- RBF(train_dataset, test_dataset, usd_non_normalize,neurons, predictor_order, learning_rate)
         
         ## Third Performance ERROR
