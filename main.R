@@ -459,7 +459,7 @@ count2 <- 1
 
 source("HETRO.R")
         
-#************************************* U.S. Dollar **************************************************#   
+#************************************* U.S. Dollar *****************************************************#   
 Result_USD_HETRO_LIST <- list()
 count <- 1
 count2 <- 1
@@ -473,10 +473,10 @@ for (i in 1:length(predictor_order)) {
         
         result_usd_PO3 <- list()
         
-        train_dataset[[i]] <- data_set[[7]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[7]][[i]][[2]]
-        test_date[[i]] <- data_set[[7]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[7]][[i]][[6]]
+        train_dataset[[i]] <- data_set[[1]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[1]][[i]][[2]]
+        test_date[[i]] <- data_set[[1]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[1]][[i]][[6]]
         actual_usd[[i]] <- test_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
@@ -517,7 +517,352 @@ for (i in 1:length(predictor_order)) {
 
 }
       
+#************************************* Australian Dollar ***********************************************# 
+Result_AUS_HETRO_LIST <- list()
+count <- 1
+count2 <- 1
+for (i in 1:length(predictor_order)) {
+        result_HETRO_AUS <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        
+        result_usd_PO3 <- list()
+        
+        train_dataset[[i]] <- data_set[[2]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[2]][[i]][[2]]
+        test_date[[i]] <- data_set[[2]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[2]][[i]][[6]]
+        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        
+        if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+        if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+        
+        
+        
+        for (l in 1:length(learning_rate) ){     
+                for (k in 1:length(activation_func)) {
+                        
+                        for (j in 1:length(neurons)) {
+                                train_dataset_PO3 <- train_dataset[[i]]
+                                test_dataset_PO3 <- test_dataset[[i]]
+                                test_date_PO3 <- test_date[[i]]
+                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                actual_usd_PO3 <-  actual_usd[[i]]
+                                
+                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
+                                result_HETRO_AUS[count2,] <-c(predictor_order[i],neurons[j],
+                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                              activation_func[k],learning_rate[l])
+                                
+                                Result_AUS_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                       activation_func[k], result_usd_PO3[[j]])
+                                count <- count +1
+                                count2 <- count2 + 1
+                        }
+                        
+                }
+        }
+        
+}
 
+#************************************* Canadian Dollar **************************************************#
+Result_CAN_HETRO_LIST <- list()
+count <- 1
+count2 <- 1
+for (i in 1:length(predictor_order)) {
+        result_HETRO_CAN <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        
+        result_usd_PO3 <- list()
+        
+        train_dataset[[i]] <- data_set[[3]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[3]][[i]][[2]]
+        test_date[[i]] <- data_set[[3]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[3]][[i]][[6]]
+        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        
+        if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+        if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+        
+        
+        
+        for (l in 1:length(learning_rate) ){     
+                for (k in 1:length(activation_func)) {
+                        
+                        for (j in 1:length(neurons)) {
+                                train_dataset_PO3 <- train_dataset[[i]]
+                                test_dataset_PO3 <- test_dataset[[i]]
+                                test_date_PO3 <- test_date[[i]]
+                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                actual_usd_PO3 <-  actual_usd[[i]]
+                                
+                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
+                                result_HETRO_CAN[count2,] <-c(predictor_order[i],neurons[j],
+                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                              activation_func[k],learning_rate[l])
+                                
+                                Result_CAN_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                       activation_func[k], result_usd_PO3[[j]])
+                                count <- count +1
+                                count2 <- count2 + 1
+                        }
+                        
+                }
+        }
+        
+}
 
+#****************************************** EURO ********************************************************#
+Result_EURO_HETRO_LIST <- list()
+count <- 1
+count2 <- 1
+for (i in 1:length(predictor_order)) {
+        result_HETRO_EURO <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        
+        result_usd_PO3 <- list()
+        
+        train_dataset[[i]] <- data_set[[4]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[4]][[i]][[2]]
+        test_date[[i]] <- data_set[[4]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[4]][[i]][[6]]
+        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        
+        if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+        if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+        
+        
+        
+        for (l in 1:length(learning_rate) ){     
+                for (k in 1:length(activation_func)) {
+                        
+                        for (j in 1:length(neurons)) {
+                                train_dataset_PO3 <- train_dataset[[i]]
+                                test_dataset_PO3 <- test_dataset[[i]]
+                                test_date_PO3 <- test_date[[i]]
+                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                actual_usd_PO3 <-  actual_usd[[i]]
+                                
+                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
+                                result_HETRO_EURO[count2,] <-c(predictor_order[i],neurons[j],
+                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                              activation_func[k],learning_rate[l])
+                                
+                                Result_EURO_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                       activation_func[k], result_usd_PO3[[j]])
+                                count <- count +1
+                                count2 <- count2 + 1
+                        }
+                        
+                }
+        }
+        
+}
+
+#****************************************** Pound Sterling **********************************************#
+Result_PON_HETRO_LIST <- list()
+count <- 1
+count2 <- 1
+for (i in 1:length(predictor_order)) {
+        result_HETRO_PON <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                        "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        
+        result_usd_PO3 <- list()
+        
+        train_dataset[[i]] <- data_set[[5]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[5]][[i]][[2]]
+        test_date[[i]] <- data_set[[5]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[5]][[i]][[6]]
+        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        
+        if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+        if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+        
+        
+        
+        for (l in 1:length(learning_rate) ){     
+                for (k in 1:length(activation_func)) {
+                        
+                        for (j in 1:length(neurons)) {
+                                train_dataset_PO3 <- train_dataset[[i]]
+                                test_dataset_PO3 <- test_dataset[[i]]
+                                test_date_PO3 <- test_date[[i]]
+                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                actual_usd_PO3 <-  actual_usd[[i]]
+                                
+                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
+                                result_HETRO_PON[count2,] <-c(predictor_order[i],neurons[j],
+                                                               result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                               activation_func[k],learning_rate[l])
+                                
+                                Result_PON_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                        activation_func[k], result_usd_PO3[[j]])
+                                count <- count +1
+                                count2 <- count2 + 1
+                        }
+                        
+                }
+        }
+        
+}
+
+#****************************************** Singapore Dollar ********************************************#
+Result_SIN_HETRO_LIST <- list()
+count <- 1
+count2 <- 1
+for (i in 1:length(predictor_order)) {
+        result_HETRO_SIN <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        
+        result_usd_PO3 <- list()
+        
+        train_dataset[[i]] <- data_set[[6]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[6]][[i]][[2]]
+        test_date[[i]] <- data_set[[6]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[6]][[i]][[6]]
+        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        
+        if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+        if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+        
+        
+        
+        for (l in 1:length(learning_rate) ){     
+                for (k in 1:length(activation_func)) {
+                        
+                        for (j in 1:length(neurons)) {
+                                train_dataset_PO3 <- train_dataset[[i]]
+                                test_dataset_PO3 <- test_dataset[[i]]
+                                test_date_PO3 <- test_date[[i]]
+                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                actual_usd_PO3 <-  actual_usd[[i]]
+                                
+                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
+                                result_HETRO_SIN[count2,] <-c(predictor_order[i],neurons[j],
+                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                              activation_func[k],learning_rate[l])
+                                
+                                Result_SIN_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                       activation_func[k], result_usd_PO3[[j]])
+                                count <- count +1
+                                count2 <- count2 + 1
+                        }
+                        
+                }
+        }
+        
+}
+
+#******************************************  Swiss Franc    ********************************************#
+Result_SWI_HETRO_LIST <- list()
+count <- 1
+count2 <- 1
+for (i in 1:length(predictor_order)) {
+        result_HETRO_SWI <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        
+        usd_non_normalize_PO3 <- data.frame()
+        test_date_PO3 <- data.frame()
+        actual_usd_PO3 <- data.frame()
+        
+        result_usd_PO3 <- list()
+        
+        train_dataset[[i]] <- data_set[[7]][[i]][[1]]
+        test_dataset[[i]] <- data_set[[7]][[i]][[2]]
+        test_date[[i]] <- data_set[[7]][[i]][[4]]
+        usd_non_normalize[[i]]<- data_set[[7]][[i]][[6]]
+        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        
+        if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
+        if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==5){ neurons<-seq(3,20,1)}
+        if(predictor_order[i]==6){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==7){ neurons<-seq(4,20,1)}
+        if(predictor_order[i]==8){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==9){ neurons<-seq(5,20,1)}
+        if(predictor_order[i]==10){ neurons<-seq(6,20,1)}
+        
+        
+        
+        for (l in 1:length(learning_rate) ){     
+                for (k in 1:length(activation_func)) {
+                        
+                        for (j in 1:length(neurons)) {
+                                train_dataset_PO3 <- train_dataset[[i]]
+                                test_dataset_PO3 <- test_dataset[[i]]
+                                test_date_PO3 <- test_date[[i]]
+                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
+                                actual_usd_PO3 <-  actual_usd[[i]]
+                                
+                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
+                                result_HETRO_SWI[count2,] <-c(predictor_order[i],neurons[j],
+                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
+                                                              activation_func[k],learning_rate[l])
+                                
+                                Result_SWI_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                                       activation_func[k], result_usd_PO3[[j]])
+                                count <- count +1
+                                count2 <- count2 + 1
+                        }
+                        
+                }
+        }
+        
+}
 
 
