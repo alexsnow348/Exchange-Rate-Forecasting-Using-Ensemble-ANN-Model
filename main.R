@@ -30,10 +30,11 @@ source("HOMO.R")
 
 Result_USD_HOMO_LIST <- list()
 count <- 1
+count2 <- 1
 ### Changes in Neurons and Learning Functins and Learning Rate
 
                 for (i in 1:length(predictor_order)) {
-                        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                        result_HOMO_USD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                                           stringsAsFactors=FALSE)
                         usd_non_normalize_PO3 <- data.frame()
@@ -69,13 +70,14 @@ count <- 1
                                                 
                                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                                result_HOMO_USD[count2,] <-c(predictor_order[i],neurons[j],
                                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                                             activation_func[k],learning_rate[l])
                                                 
                                                 Result_USD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                                       activation_func[k], result_usd_PO3[[j]])
                                                 count <- count +1
+                                                count2 <- count2 +1
                                         }
                                         
                                 # Writing to xlsx file
@@ -90,9 +92,9 @@ count <- 1
 
 Result_AUS_HOMO_LIST <- list()
 count <- 1
-
+count2 <- 1
         for (i in 1:length(predictor_order)) {
-        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                result_HOMO_AUS <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                           stringsAsFactors=FALSE)
         usd_non_normalize_PO3 <- data.frame()
@@ -128,13 +130,14 @@ count <- 1
                                 
                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HOMO_AUS[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_AUS_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                       activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 +1
                         }
                         
                         # Writing to xlsx file
@@ -149,9 +152,9 @@ count <- 1
 
 Result_CAN_HOMO_LIST <- list()
 count <- 1
-
+count2 <- 1
         for (i in 1:length(predictor_order)) {
-        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                result_HOMO_CAN <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                           stringsAsFactors=FALSE)
         usd_non_normalize_PO3 <- data.frame()
@@ -187,13 +190,14 @@ count <- 1
                                 
                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HOMO_CAN[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_CAN_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                       activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 +1
                         }
                         
                         # Writing to xlsx file
@@ -208,9 +212,10 @@ count <- 1
 
 Result_EURO_HOMO_LIST <- list()
 count <- 1
+count2 <- 1
 
         for (i in 1:length(predictor_order)) {
-        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                result_HOMO_EURO <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                           stringsAsFactors=FALSE)
         usd_non_normalize_PO3 <- data.frame()
@@ -246,13 +251,14 @@ count <- 1
                                 
                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HOMO_EURO[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_EURO_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                        activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 +1
                         }
                         
                         # Writing to xlsx file
@@ -268,9 +274,10 @@ count <- 1
 
 Result_PON_HOMO_LIST <- list()
 count <- 1
+count2 <- 1
 
         for (i in 1:length(predictor_order)) {
-        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+        result_HOMO_PON <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                           stringsAsFactors=FALSE)
         usd_non_normalize_PO3 <- data.frame()
@@ -306,13 +313,14 @@ count <- 1
                                 
                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HOMO_PON[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_PON_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                       activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 +1
                         }
                         
                         # Writing to xlsx file
@@ -327,9 +335,9 @@ count <- 1
 
 Result_SIN_HOMO_LIST <- list()
 count <- 1
-
+count2 <- 1
         for (i in 1:length(predictor_order)) {
-        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+        result_HOMO_SIN <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                           stringsAsFactors=FALSE)
         usd_non_normalize_PO3 <- data.frame()
@@ -365,13 +373,14 @@ count <- 1
                                 
                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HOMO_SIN[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_SIN_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                       activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 +1
                         }
                         
                         # Writing to xlsx file
@@ -387,9 +396,10 @@ count <- 1
 
 Result_SWI_HOMO_LIST <- list()
 count <- 1
+count2 <- 1
 
         for (i in 1:length(predictor_order)) {
-        result_HOMO_usd_PO3 <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                result_HOMO_SWI <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                           stringsAsFactors=FALSE)
         usd_non_normalize_PO3 <- data.frame()
@@ -425,13 +435,14 @@ count <- 1
                                 
                                 result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HOMO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HOMO_SWI[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_SWI_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                       activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 +1
                         }
                         
                         # Writing to xlsx file
@@ -451,10 +462,10 @@ source("HETRO.R")
 #************************************* U.S. Dollar **************************************************#   
 Result_USD_HETRO_LIST <- list()
 count <- 1
-
+count2 <- 1
 for (i in 1:length(predictor_order)) {
-        result_HETRO_usd_PO3 <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Fusion Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+        result_HETRO_USD <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
      
         usd_non_normalize_PO3 <- data.frame()
         test_date_PO3 <- data.frame()
@@ -491,13 +502,14 @@ for (i in 1:length(predictor_order)) {
                                 
                                 result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
-                                result_HETRO_usd_PO3[j,] <-c(predictor_order[i],neurons[j],
+                                result_HETRO_USD[count2,] <-c(predictor_order[i],neurons[j],
                                                             result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
                                                             activation_func[k],learning_rate[l])
                                 
                                 Result_USD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
                                                                        activation_func[k], result_usd_PO3[[j]])
                                 count <- count +1
+                                count2 <- count2 + 1
                         }
                         
                 }

@@ -9,7 +9,7 @@
 # Return Values 
 # Predicted Value and Error Results
 
-RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate){
+RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate,activation_function){
         
         require("rnn")
        
@@ -30,9 +30,9 @@ RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, 
         model <- trainr(Y=output_matrix,
                         X=input_try,
                         learningrate   =  0.1,
-                        sigmoid = "logistic",
+                        sigmoid = activation_function,
                         hidden_dim  = ceiling((predictor_order+1)/2),
-                        numepochs = 50
+                        numepochs = 200
                         
         )
         

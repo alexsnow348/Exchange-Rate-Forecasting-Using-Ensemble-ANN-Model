@@ -31,7 +31,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         first_rmse<- rmse(first[[2]])
         
 ## SECOND RNN
-        second <- RNN(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate)
+        second <- RNN(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate,activation_function)
         
         ## Second Performance ERROR
         second_mae<- mae(second[[2]])
@@ -57,10 +57,12 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         min_value <-apply(all_predicted,1, min)
         max_value <- apply(all_predicted,1,max)
         mean_value <- apply(all_predicted,1,mean)
+      
         
         error_min <- actual - min_value
         error_max <- actual - max_value
         error_mean <- actual - mean_value
+        
         
         error_all_after_fusion <- as.data.frame(cbind(error_min,error_max,error_mean))
         names(error_all_after_fusion) <- c("MIN","MAX","MEAN")
@@ -78,15 +80,15 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         mae_rate <- min(mae_max,mae_mean,mae_min)
         
         if(rmse_rate == rmse_max ){
-                final_result = list(max_value,error_max,"MAX",rmse_rate,mae_max)
+                final_result = list(unname(max_value),unname(error_max),"MAX",rmse_rate,mae_max)
         }
         
         if(rmse_rate == rmse_min ){
-                final_result = list(min_value,error_min,"MIN",rmse_rate,mae_min)
+                final_result = list(unname(min_value),unname(error_min),"MIN",rmse_rate,mae_min)
         }
         
         if(rmse_rate == rmse_mean){
-                final_result = list(mean_value,error_mean,"MEAN",rmse_rate,mae_mean)       
+                final_result = list(unname(mean_value),unname(error_mean),"MEAN",rmse_rate,mae_mean)       
         }
         
         return(final_result) 
