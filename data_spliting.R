@@ -3,7 +3,7 @@
 
 data_spliting <- function(url){
         
-        source("requried_functions_N_libraries.R")
+        source("functions.R")
         source("Data_Processing.R")
         
         # Select Predictor Order (Range: 3 <-> 10 )

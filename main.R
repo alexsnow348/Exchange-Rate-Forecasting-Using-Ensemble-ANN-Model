@@ -8,13 +8,13 @@ url <- "/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv"
 source("data_spliting.R")
 
 # Spliting the data
-data_set <- data_spliting(url)                             # Usage of Data_set
-                                                        # data_set[[language_type]][[Predictor_order]][1:4]
+data_set <- data_spliting(url)                          # Usage of Data_set
+                                                        # data_set[[language_type]][[Predictor_order]][1:6]
                                                         #****Lanuage Type **** #   #**** Predictor_ordr****#
                                                         #   1. USD    5. AUD   #   #  1. PO_3   5. PO_7
                                                         #   2. GBP    6. CAD   #   #  2. PO_4   6. PO_8
                                                         #   3. EUR    7, SGD   #   #  3. PO_5   7. PO_9
-train_dataset <- list()                                 #   4. CHF            #   #  4. PO_6   8. PO_10
+train_dataset <- list()                                 #   4. CHF             #   #  4. PO_6   8. PO_10
 test_dataset <- list() 
 predictor_order <- seq(3,10,1)
 test_date <- list()
