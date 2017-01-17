@@ -3,22 +3,26 @@
 ## Function Parameters
 ## Datasource_url: "/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv"
 ## Predictor order : 1-10
-## Currency : "U.S. Dollar" / "Australian Dollar"/ "Canadian Dollar"/"Euro"
-##            "Pound Sterling"/"Singapore Dollar"/"Swiss Franc"
+## Currency : "USD"/"GBP"/"EUR"/"CHF"/"AUD"/"CAD"/"SGD"
+
 
 ## Return Outcomes
 ## Date for predicted day, Test Dataset, Train Dataset, Valadition Data Set
 
 
 #Training variables
-Data_Processing <- function(datasource_url, predictor_order, ex_currency){ 
-        
-        alldata = tbl_df(read.csv(datasource_url))
-        usd = filter(alldata, currency ==ex_currency)
-        newdata = tbl_df(usd)
-        usd_df = select(newdata, Date, Value)
-        usd_non_normalize = select(usd_df, Value)
-        usd_value = as.tbl(normalized(usd_non_normalize))
+Data_Processing <- function(url, predictor_order, ex_currency){ 
+        require("dplyr")
+        alldata = tbl_df(read.csv(url))
+        if(ex_currency=="USD"){usd_df = select(alldata, DATE, USD)}
+        if(ex_currency=="GBP"){usd_df = select(alldata, DATE, GBP)}
+        if(ex_currency=="EUR"){usd_df = select(alldata, DATE, EUR)}
+        if(ex_currency=="CHF"){usd_df = select(alldata, DATE, CHF)}
+        if(ex_currency=="AUD"){usd_df = select(alldata, DATE, AUD)}
+        if(ex_currency=="CAD"){usd_df = select(alldata, DATE, CAD)}
+        if(ex_currency=="SGD"){usd_df = select(alldata, DATE, SGD)}
+        usd_non_normalize = usd_df[,2]
+        usd_value = tbl_df(normalized(usd_non_normalize))
         names(usd_value) = "USD"
         result =  createTimeSlices(usd_value$USD, predictor_order, 1, fixedWindow = T)
         train_data = training_data(result, usd_value)
@@ -100,9 +104,9 @@ Data_Processing <- function(datasource_url, predictor_order, ex_currency){
         
         
         #Predicted Date
-        Date = createTimeSlices(usd$Date, predictor_order, 1, fixedWindow = T)
-        date = testing_data(Date,usd)
-        testing_date = date[test_end:length(date$Value),]$Date
+        Date = createTimeSlices(usd_df$DATE, predictor_order, 1, fixedWindow = T)
+        date = testing_data(Date,usd_df)
+        testing_date = date[test_end:length(usd_df$DATE),]$DATE
         testing_date_list <- list(lapply(testing_date, as.character))
        
         i <- 1
