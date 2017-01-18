@@ -11,7 +11,7 @@
 
 
 #Training variables
-Data_Processing <- function(url, predictor_order, ex_currency){ 
+Data_Processing <- function(url, predictor_order, ex_currency,train_per){ 
         require("dplyr")
         alldata = tbl_df(read.csv(url))
         if(ex_currency=="USD"){usd_df = select(alldata, DATE, USD)}
@@ -34,9 +34,9 @@ Data_Processing <- function(url, predictor_order, ex_currency){
         
         
         #input_train 60 % && output_train 60 %
-        train_until = ceiling(length(matrix_train)*0.6/predictor_order)
+        train_until = ceiling(length(matrix_train)*train_per/predictor_order)
         training_input = matrix_train[1:predictor_order, 1:train_until]
-        train_end = ceiling(length(test_data$USD)*0.6)
+        train_end = ceiling(length(test_data$USD)*train_per)
         training_output = test_data[1:train_end,]
         
         new_input = t(training_input)
@@ -44,7 +44,7 @@ Data_Processing <- function(url, predictor_order, ex_currency){
         train_dataset <- cbind(train_input, training_output)
         
         
-        #input_test 40% && output_test 40%
+        #input_test 
         test_until <- train_until+1
         test_end <- train_end+1
         matrix_end <- length(matrix_train)/predictor_order
@@ -55,7 +55,7 @@ Data_Processing <- function(url, predictor_order, ex_currency){
         test_input = as.data.frame(new_input)
         test_dataset = cbind(test_input, testing_output)
       
-        ## Seperating TEST and VALIDATE dataset 20% each
+        ## Seperating TEST and VALIDATE dataset
         test_data_end <- ceiling(length(test_dataset$USD)*0.5)
         test_data = test_dataset[1:test_data_end, ]
         validate_start = test_data_end+1

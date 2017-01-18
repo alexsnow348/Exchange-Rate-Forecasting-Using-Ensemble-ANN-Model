@@ -1,7 +1,7 @@
 
 # Loading required funtions and pre-processing the data set
 
-data_spliting <- function(url){
+data_spliting <- function(url,train_per){
         
         source("functions.R")
         source("Data_Processing.R")
@@ -26,7 +26,7 @@ data_spliting <- function(url){
                 
                 if (i == 1) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[1])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[1],train_per)
                                 data_frame_usd[[j]] <- data_frame
                         }
                         
@@ -35,7 +35,7 @@ data_spliting <- function(url){
                 
                 if (i == 2) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[2])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[2],train_per)
                                 data_frame_aus[[j]] <- data_frame
                         }
                         
@@ -44,7 +44,7 @@ data_spliting <- function(url){
                 
                 if (i == 3) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[3])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[3],train_per)
                                 data_frame_can[[j]] <- data_frame
                         }
                         
@@ -53,7 +53,7 @@ data_spliting <- function(url){
                 
                 if (i == 4) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[4])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[4],train_per)
                                 data_frame_euro[[j]] <- data_frame
                         }
                         
@@ -62,7 +62,7 @@ data_spliting <- function(url){
                 
                 if (i == 5) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[5])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[5],train_per)
                                 data_frame_pon[[j]] <- data_frame
                         }
                         
@@ -71,7 +71,7 @@ data_spliting <- function(url){
                 
                 if (i == 6) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[6])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[6],train_per)
                                 data_frame_sin[[j]] <- data_frame
                         }
                         
@@ -79,7 +79,7 @@ data_spliting <- function(url){
                 }
                 if (i == 7) {
                         for(j in 1:8){
-                                data_frame <- Data_Processing(url,predictor_order[j],currency[7])
+                                data_frame <- Data_Processing(url,predictor_order[j],currency[7],train_per)
                                 data_frame_swi[[j]] <- data_frame
                         }
                         

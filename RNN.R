@@ -53,7 +53,7 @@ RNN <- function(train_dataset, test_dataset,usd_non_normalize, predictor_order, 
         predict_value <- denormalized(test_result,usd_non_normalize)
         actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
         error <- actual - predict_value
-        final_result <- list(predict_value,error)
+        final_result <- list(predict_value,error,model)
         return(final_result)
         
 }

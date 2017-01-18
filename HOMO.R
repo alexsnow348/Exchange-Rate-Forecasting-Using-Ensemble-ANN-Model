@@ -19,7 +19,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
 ## FIRST MLP
         set.seed(1)
         weight_size =length(train_dataset[,1])
-        weight1 <- sample(1:1000,size = weight_size,replace = F)
+        weight1 <- sample(1:2000,size = weight_size,replace = F)
         weight1 = normalized(weight1)
         
         ## Train the network using neuralnet (First MLP)
@@ -28,11 +28,12 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         ## First performance ERROR
         first_mae <- mae(first[[2]])
         first_rmse<- rmse(first[[2]])
+        first_model <- first[[3]]
         
 ## SECOND MLP
         set.seed(2)
         weight_size =length(train_dataset[,1])
-        weight2 <- sample(1:1000,size = weight_size,replace = F)
+        weight2 <- sample(1:2000,size = weight_size,replace = F)
         weight2 = normalized(weight2)
         ## Train the network using neuralnet (First MLP)
         second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,activation_func,weight2)
@@ -40,11 +41,12 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         ## Second Performance ERROR
        second_mae<- mae(second[[2]])
        second_rmse<-  rmse(second[[2]])
+       second_model <- second[[3]]
         
 ## THIRD MLP
         set.seed(3)
         weight_size =length(train_dataset[,1])
-        weight3 <- sample(1:1000,size = weight_size,replace = F)
+        weight3 <- sample(1:2000,size = weight_size,replace = F)
         weight3 = normalized(weight3)
         ## Train the network using neuralnet (First MLP)
         third <-  MLP(train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,activation_func,weight3)
@@ -52,6 +54,10 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         ## Third Performance ERROR
         third_mae <- mae(third[[2]])
         third_rmse <- rmse(third[[2]])
+        third_model <- third[[3]]
+      
+### Three model
+        models <- list(first_model,second_model,third_model)
         
 ## Predicted Value from all Three Network
        
@@ -83,15 +89,15 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
         rmse_rate <- min(rmse_min,rmse_max,rmse_mean)
        
         if(rmse_rate == rmse_max ){
-                final_result = list(max_value,error_max,"MAX",rmse_rate,mae_max)
+                final_result = list(unname(max_value),unname(error_max),"MAX",rmse_rate,mae_max,models)
         }
         
         if(rmse_rate == rmse_min ){
-                final_result = list(min_value,error_min,"MIN",rmse_rate,mae_min)
+                final_result = list(unname(min_value),unname(error_min),"MIN",rmse_rate,mae_min,models)
         }
         
         if(rmse_rate == rmse_mean){
-                final_result = list(mean_value,error_mean,"MEAN",rmse_rate,mae_mean)       
+                final_result = list(unname(mean_value),unname(error_mean),"MEAN",rmse_rate,mae_mean,models)       
         }
         
         return(final_result)

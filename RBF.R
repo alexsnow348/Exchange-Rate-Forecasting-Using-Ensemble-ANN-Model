@@ -27,7 +27,7 @@ RBF <- function(train_dataset, test_dataset, usd_non_normalize,neurons, predicto
        
         rmse(error)
         mae(error)
-        final_result <- list(result,error)
+        final_result <- list(result,error,data)
         return(final_result)
 }
 
