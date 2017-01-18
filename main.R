@@ -4,8 +4,8 @@
 # Loading required funtions and pre-processing the data set
 # Data Source
 
-#url <- "/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv"
-url <- "E:/WUT FYP DATA/FYP Program/FYP Program/Data/alldata.csv"
+url <- "/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv"
+#url <- "E:/WUT FYP DATA/FYP Program/FYP Program/Data/alldata.csv"
 source("data_spliting.R")
 
 # Train 60%
@@ -43,7 +43,7 @@ count <- 1
 count2 <- 1
 ### Changes in Neurons and Learning Functins and Learning Rate
 
-                for (i in 1:length(predictor_order)) {
+        for (i in 1:length(predictor_order)) {
                         result_HOMO_USD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
                                                           stringsAsFactors=FALSE)
