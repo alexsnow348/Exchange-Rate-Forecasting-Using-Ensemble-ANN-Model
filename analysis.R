@@ -4,7 +4,7 @@
 
 result <- as.tbl(result_HOMO_USD)
 min_value <- min(result$RMSE)
-best <- filter(try, RMSE == min(result$RMSE))
+best <- filter(result, RMSE == min(result$RMSE))
 for (i in 1:length(result$RMSE)) {
         if(result$RMSE[i]== min_value){
                 row_select <- i
