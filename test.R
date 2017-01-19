@@ -176,7 +176,7 @@ activation_func <- c("logistic")
 train_per <- 0.7
 data_set <- data_spliting(url,train_per)
 
-
+data_set <- data_set_7
 #************************************************************ HOMOGENEOUS *************************************************************************#
 
 source("HOMO.R")
@@ -329,7 +329,7 @@ activation_func <- c("logistic")
 
 # Train 60%
 train_per <- 0.8
-data_set <- data_spliting(url,train_per)
+data_set_8 <- data_spliting(url,train_per)
 
 #************************************************************ HOMOGENEOUS *************************************************************************#
 

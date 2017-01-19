@@ -1,28 +1,47 @@
 
+### Filter the best result
+
+
+result <- as.tbl(result_HOMO_USD)
+min_value <- min(result$RMSE)
+best <- filter(try, RMSE == min(result$RMSE))
+for (i in 1:length(result$RMSE)) {
+        if(result$RMSE[i]== min_value){
+                row_select <- i
+        }
+               
+}
+
+predictor_order <- best$Predictor_Order
+neurons <- best$Neurons
+activation_func <- best$Activation_Function
+learning_rate <- best$Learning_Rate
+
+
 ## Getting Error and actual value from the Result LIST to plot
-predict_value<- Result_USD_HOMO_LIST[[1]][[5]][[1]]       ##[[the row number in result_HOMO_*]][[5]][[1]]
-predict_error <- Result_USD_HOMO_LIST[[1]][[5]][[2]]      ##[[the row number in result_HOMO_*]][[5]][[2]]
+predict_value<- Result_USD_HOMO_LIST[[row_select]][[5]][[1]]       ##[[the row number in result_HOMO_*]][[5]][[1]]
+predict_error <- Result_USD_HOMO_LIST[[row_select]][[5]][[2]]      ##[[the row number in result_HOMO_*]][[5]][[2]]
 
 
-homo_model1 <- Result_USD_HOMO_LIST[[1]][[5]][[6]][[1]]   ##[[the row number in result_HOMO_*][[5]][[6]][[1]]
-homo_model2 <- Result_USD_HOMO_LIST[[1]][[5]][[6]][[2]]   ##[[the row number in result_HOMO_*][[5]][[6]][[2]]
-homo_model3 <- Result_USD_HOMO_LIST[[1]][[5]][[6]][[3]]   ##[[the row number in result_HOMO_*][[5]][[6]][[3]]
+homo_model1 <- Result_USD_HOMO_LIST[[row_select]][[5]][[6]][[1]]   ##[[the row number in result_HOMO_*][[5]][[6]][[1]]
+homo_model2 <- Result_USD_HOMO_LIST[[row_select]][[5]][[6]][[2]]   ##[[the row number in result_HOMO_*][[5]][[6]][[2]]
+homo_model3 <- Result_USD_HOMO_LIST[[row_select]][[5]][[6]][[3]]   ##[[the row number in result_HOMO_*][[5]][[6]][[3]]
 
-validate_data <- data_set[[1]][[1]][[3]]                  ## [[currency]][[predictor_order-2]][[1:6]] 1.Traindata,
-                                                          # 2. TestData 3. Validate Data 4.Test_Date 5. Validate_Date
-                                                          # 6. actual whole dataset
-
+validate_data <- data_set[[1]][[predictor_order-2]][[3]]                  ## [[currency]][[predictor_order-2]][[1:6]] 1.Traindata,
+test_data <- data_set[[1]][[predictor_order-2]][[2]]                      # 2. TestData 3. Validate Data 4.Test_Date 5. Validate_Date
+                                                                          # 6. actual whole dataset
+                                                                
 
 #Applying three models to valadatation dataset
 usd_non_normalize <- data_set[[1]][[predictor_order - 2]][[6]]
 
-model_results <- neuralnet::compute(homo_model1, validate_data[1:predictor_order])
+model_results <- neuralnet::compute(homo_model1, test_data[1:predictor_order])
 predicted_oneDayhead <- denormalized(model_results$net.result,usd_non_normalize)
 
-model_results2 <- neuralnet::compute(homo_model2, validate_data[1:predictor_order])
+model_results2 <- neuralnet::compute(homo_model2, test_data[1:predictor_order])
 predicted_oneDayhead2 <- denormalized(model_results2$net.result,usd_non_normalize)
 
-model_results3 <- neuralnet::compute(homo_model3, validate_data[1:predictor_order])
+model_results3 <- neuralnet::compute(homo_model3, test_data[1:predictor_order])
 predicted_oneDayhead3 <- denormalized(model_results3$net.result,usd_non_normalize)
 
 
@@ -30,8 +49,8 @@ predicted_oneDayhead3 <- denormalized(model_results3$net.result,usd_non_normaliz
 all_predicted <- cbind(predicted_oneDayhead,predicted_oneDayhead2,predicted_oneDayhead3)
 all_predicted <-as.data.frame(all_predicted)
 
-actual <- denormalized(validate_data[,predictor_order+1],usd_non_normalize)
-actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
+actual <- denormalized(test_data[,predictor_order+1],usd_non_normalize)
+
 
 min_value <-apply(all_predicted,1, min)
 max_value <- apply(all_predicted,1,max)
@@ -56,14 +75,14 @@ mae_mean<- mae(error_all_after_fusion$MEAN)
 rmse_rate <- min(rmse_min,rmse_max,rmse_mean)
 
 if(rmse_rate == rmse_max ){
-        final_result = list(unname(max_value),unname(error_max),"MAX",rmse_rate,mae_max)
+        final_result_val = list(unname(max_value),unname(error_max),"MAX",rmse_rate,mae_max)
 }
 
 if(rmse_rate == rmse_min ){
-        final_result = list(unname(min_value),unname(error_min),"MIN",rmse_rate,mae_min)
+        final_result_val = list(unname(min_value),unname(error_min),"MIN",rmse_rate,mae_min)
 }
 
 if(rmse_rate == rmse_mean){
-        final_result = list(unname(mean_value),unname(error_mean),"MEAN",rmse_rate,mae_mean)       
+        final_result_val = list(unname(mean_value),unname(error_mean),"MEAN",rmse_rate,mae_mean)       
 }
 

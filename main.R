@@ -4,7 +4,7 @@
 # Loading required funtions and pre-processing the data set
 # Data Source
 
-url <- "/home/wut/Desktop/Link to Data/FYP Program/Raw Data/alldata.csv"
+url <- "/home/wut/Desktop/Link to Data/FYP Program/Data/alldata.csv"
 #url <- "E:/WUT FYP DATA/FYP Program/FYP Program/Data/alldata.csv"
 source("data_spliting.R")
 

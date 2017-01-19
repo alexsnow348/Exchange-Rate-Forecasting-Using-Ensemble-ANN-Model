@@ -20,7 +20,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
 ## FIRST MLP
         set.seed(1)
         weight_size =length(train_dataset[,1])
-        weight1 <- sample(1:2000,size = weight_size,replace = F)
+        weight1 <- sample(1:10000,size = weight_size,replace = F)
         weight1 = normalized(weight1)
         
         ## Train the network using neuralnet 

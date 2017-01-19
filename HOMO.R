@@ -19,7 +19,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
 ## FIRST MLP
         set.seed(1)
         weight_size =length(train_dataset[,1])
-        weight1 <- sample(1:2000,size = weight_size,replace = F)
+        weight1 <- sample(1:10000,size = weight_size,replace = F)
         weight1 = normalized(weight1)
         
         ## Train the network using neuralnet (First MLP)
@@ -33,7 +33,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
 ## SECOND MLP
         set.seed(2)
         weight_size =length(train_dataset[,1])
-        weight2 <- sample(1:2000,size = weight_size,replace = F)
+        weight2 <- sample(1:10000,size = weight_size,replace = F)
         weight2 = normalized(weight2)
         ## Train the network using neuralnet (First MLP)
         second <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,activation_func,weight2)
@@ -46,7 +46,7 @@ HOMO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_
 ## THIRD MLP
         set.seed(3)
         weight_size =length(train_dataset[,1])
-        weight3 <- sample(1:2000,size = weight_size,replace = F)
+        weight3 <- sample(1:10000,size = weight_size,replace = F)
         weight3 = normalized(weight3)
         ## Train the network using neuralnet (First MLP)
         third <-  MLP(train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,activation_func,weight3)
