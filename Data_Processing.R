@@ -21,8 +21,8 @@ Data_Processing <- function(url, predictor_order, ex_currency,train_per){
         if(ex_currency=="AUD"){usd_df = select(alldata, DATE, AUD)}
         if(ex_currency=="CAD"){usd_df = select(alldata, DATE, CAD)}
         if(ex_currency=="SGD"){usd_df = select(alldata, DATE, SGD)}
-        usd_non_normalize = usd_df[,2]
-        usd_value = tbl_df(normalized(usd_non_normalize))
+        non_normalize = usd_df[,2]
+        usd_value = tbl_df(normalized(non_normalize))
         names(usd_value) = "USD"
         result =  createTimeSlices(usd_value$USD, predictor_order, 1, fixedWindow = T)
         train_data = training_data(result, usd_value)
@@ -120,7 +120,7 @@ Data_Processing <- function(url, predictor_order, ex_currency,train_per){
         validate_start = test_data_end+1
         validate_date = testing_date[validate_start:length(testing_date$Date),]
        
-        output <- list(train_dataset,test_data,validate_data,test_date,validate_date, usd_non_normalize)
+        output <- list(train_dataset,test_data,validate_data,test_date,validate_date, non_normalize)
         
         
 }

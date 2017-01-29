@@ -5,14 +5,14 @@
 
 ##Arguments
 # train_dataset: the 60 % of the data to train the network
-# test_dataset: the 40 % of the data to test the network
+# validate_dataset: the 40 % of the data to test the network
 # predictor_order: the no. of supplied past historical data (sample input range: 3 <-> 10)
 # learning_rate : the learning rate to train the network (sample input range : 1 <-> 0.05)
 
 # Return Values 
 # 
 
-HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor_order,activation_function, learning_rate){
+HETRO <- function(train_dataset,validate_dataset,non_normalize,neurons,predictor_order,activation_function, learning_rate){
         source("MLP.R")
         source("RNN.R")
         source("RBF.R")
@@ -24,7 +24,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         weight1 = normalized(weight1)
         
         ## Train the network using neuralnet 
-        first <- MLP( train_dataset,test_dataset,usd_non_normalize,predictor_order,neurons,learning_rate,activation_function,weight1)
+        first <- MLP( train_dataset,validate_dataset,non_normalize,predictor_order,neurons,learning_rate,activation_function,weight1)
         
         ## First performance ERROR
         first_mae <- mae(first[[2]])
@@ -32,7 +32,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         first_model <- first[[3]]
         
 ## SECOND RNN
-        second <- RNN(train_dataset, test_dataset,usd_non_normalize, predictor_order, learning_rate,activation_function)
+        second <- RNN(train_dataset, validate_dataset,non_normalize, predictor_order, learning_rate,activation_function)
         
         ## Second Performance ERROR
         second_mae<- mae(second[[2]])
@@ -42,7 +42,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
 ## THIRD RBF
       
         ## Train the network using neuralnet 
-        third <- RBF(train_dataset, test_dataset, usd_non_normalize,neurons, predictor_order, learning_rate)
+        third <- RBF(train_dataset, validate_dataset, non_normalize,neurons, predictor_order, learning_rate)
         
         ## Third Performance ERROR
         third_mae <- mae(third[[2]])
@@ -57,7 +57,7 @@ HETRO <- function(train_dataset,test_dataset,usd_non_normalize,neurons,predictor
         all_predicted <- cbind(first[[1]],second[[1]],third[[1]])
         all_predicted <-as.data.frame(all_predicted)
         
-        actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
+        actual <- denormalized(validate_dataset[,predictor_order+1],non_normalize)
         
         min_value <-apply(all_predicted,1, min)
         max_value <- apply(all_predicted,1,max)

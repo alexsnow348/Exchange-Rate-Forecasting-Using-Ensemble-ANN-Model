@@ -3,7 +3,7 @@
 
 ##Arguments
 # train_dataset: the 60 % of the data to train the network
-# test_dataset: the 40 % of the data to test the network
+# validate_dataset: the 40 % of the data to test the network
 # predictor_order: the no. of supplied past historical data (sample input range: 3 <-> 10)
 # learning_rate : the learning rate to train the network (sample input range : 1 <-> 0.05)
 
@@ -11,7 +11,7 @@
 # Predicted Value and Error Results
 
 
-MLP <- function(train_dataset,test_dataset,usd_non_normalize, predictor_order,
+MLP <- function(train_dataset,validate_dataset,non_normalize, predictor_order,
                 hidden_neurons, learning_rate,learning_func, weights){
         require("neuralnet")
         
@@ -74,10 +74,10 @@ MLP <- function(train_dataset,test_dataset,usd_non_normalize, predictor_order,
        
       
         # Testing and Error Result
-        model_results <- neuralnet::compute(exchange_model, test_dataset[1:predictor_order])
+        model_results <- neuralnet::compute(exchange_model, validate_dataset[1:predictor_order])
         predicted_oneDayhead <- model_results$net.result
-        predict_value <- denormalized(predicted_oneDayhead,usd_non_normalize)
-        actual <- denormalized(test_dataset[,predictor_order+1],usd_non_normalize)
+        predict_value <- denormalized(predicted_oneDayhead,non_normalize)
+        actual <- denormalized(validate_dataset[,predictor_order+1],non_normalize)
         error <- actual - predict_value
         final_result <- list(predict_value,error,exchange_model)
         return(final_result)

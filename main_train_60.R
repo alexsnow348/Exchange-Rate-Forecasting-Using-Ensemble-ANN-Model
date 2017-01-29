@@ -22,12 +22,12 @@ data_set <- data_spliting(url,train_per)
                                         
 
 train_dataset <- list()                                 
-test_dataset <- list() 
+validate_dataset <- list() 
 predictor_order <- seq(3,10,1)
-test_date <- list()
-usd_non_normalize <- list()
+validate_date <- list()
+non_normalize <- list()
 result_usd <- list()
-actual_usd <- list()
+actual_value <- list()
 learning_rate <- seq(0.1,1,0.1)
 activation_func <- c("logistic", "tanh")
 
@@ -44,20 +44,22 @@ count2 <- 1
 ### Changes in Neurons and Learning Functins and Learning Rate
 
         for (i in 1:length(predictor_order)) {
-                        result_HOMO_USD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
-                                                          "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                                          stringsAsFactors=FALSE)
-                        usd_non_normalize_PO3 <- data.frame()
-                test_date_PO3 <- data.frame()
-                actual_usd_PO3 <- data.frame()
+            result_HOMO_USD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                                            "MAE"=numeric(),"Activation_Function"=character(),
+                                            "Learning_Rate"=numeric(),"Fusion_Fuc"=character(),
+                                          "Fusion_Fuc"=character(),stringsAsFactors=FALSE)
+
+                non_normalize_PO <- data.frame()
+                validate_date_PO <- data.frame()
+                actual_value_PO <- data.frame()
                 
-                result_usd_PO3 <- list()
+                result__value_PO <- list()
                 
                 train_dataset[[i]] <- data_set[[1]][[i]][[1]]
-                test_dataset[[i]] <- data_set[[1]][[i]][[2]]
-                test_date[[i]] <- data_set[[1]][[i]][[4]]
-                usd_non_normalize[[i]]<- data_set[[1]][[i]][[6]]
-                actual_usd[[i]] <- test_dataset[[i]][,i+3]
+                validate_dataset[[i]] <- data_set[[1]][[i]][[2]]
+                validate_date[[i]] <- data_set[[1]][[i]][[4]]
+                non_normalize[[i]]<- data_set[[1]][[i]][[6]]
+                actual_value[[i]] <- validate_dataset[[i]][,i+3]
                 
                 if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
                 if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -72,22 +74,22 @@ count2 <- 1
                                 for (k in 1:length(activation_func)) {
                                         
                                         for (j in 1:length(neurons)) {
-                                                train_dataset_PO3 <- train_dataset[[i]]
-                                                test_dataset_PO3 <- test_dataset[[i]]
-                                                test_date_PO3 <- test_date[[i]]
-                                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                                actual_usd_PO3 <-  actual_usd[[i]]
+                                                train_dataset_PO <- train_dataset[[i]]
+                                                validate_dataset_PO <- validate_dataset[[i]]
+                                                validate_date_PO <- validate_date[[i]]
+                                                non_normalize_PO <-   non_normalize[[i]]
+                                                actual_value_PO <-  actual_value[[i]]
                                                 
-                                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                                              neurons = neurons[j], predictor_order[i], 
                                                                              activation_func[k],learning_rate[l])
                                                 
                                                 result_HOMO_USD[count2,] <-c(predictor_order[i],neurons[j],
-                                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                                            activation_func[k],learning_rate[l])
+                                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                                 
-                                                Result_USD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                                      activation_func[k], result_usd_PO3[[j]])
+                                               # Result_USD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                                #                                      activation_func[k], result__value_PO[[j]])
                                                 count <- count +1
                                                 count2 <- count2 +1
                                         }
@@ -107,20 +109,21 @@ Result_GBP_HOMO_LIST <- list()
 count <- 1
 count2 <- 1
         for (i in 1:length(predictor_order)) {
-                result_HOMO_GBP <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
-                                          "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                          stringsAsFactors=FALSE)
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+                result_HOMO_USD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
+                                              "MAE"=numeric(),"Activation_Function"=character(),
+                                              "Learning_Rate"=numeric(),"Fusion_Fuc"=character(),
+                                              "Fusion_Fuc"=character(),stringsAsFactors=FALSE)
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[2]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[2]][[i]][[2]]
-        test_date[[i]] <- data_set[[2]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[2]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[2]][[i]][[2]]
+        validate_date[[i]] <- data_set[[2]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[2]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -135,22 +138,22 @@ count2 <- 1
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], 
                                                              activation_func[k],learning_rate[l])
                                 
                                 result_HOMO_GBP[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_GBP_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                      activation_func[k], result_usd_PO3[[j]])
+                              #  Result_GBP_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                               #                                       activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 +1
                         }
@@ -171,18 +174,18 @@ count2 <- 1
         for (i in 1:length(predictor_order)) {
                 result_HOMO_EUR <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                          stringsAsFactors=FALSE)
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+                                          "Fusion_Fuc"=character(),stringsAsFactors=FALSE)
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[3]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[3]][[i]][[2]]
-        test_date[[i]] <- data_set[[3]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[3]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[3]][[i]][[2]]
+        validate_date[[i]] <- data_set[[3]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[3]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -197,20 +200,20 @@ count2 <- 1
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HOMO_EUR[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_EUR_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                      activation_func[k], result_usd_PO3[[j]])
+                              #  Result_EUR_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                               #                                       activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 +1
                         }
@@ -232,18 +235,18 @@ count2 <- 1
         for (i in 1:length(predictor_order)) {
                 result_CHF_EURO <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                          stringsAsFactors=FALSE)
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+                                          "Fusion_Fuc"=character(), stringsAsFactors=FALSE)
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[4]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[4]][[i]][[2]]
-        test_date[[i]] <- data_set[[4]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[4]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[4]][[i]][[2]]
+        validate_date[[i]] <- data_set[[4]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[4]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -258,20 +261,20 @@ count2 <- 1
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_CHF_EURO[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_CHF_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                                #Result_CHF_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                      activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 +1
                         }
@@ -293,18 +296,18 @@ count2 <- 1
         for (i in 1:length(predictor_order)) {
         result_HOMO_AUD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                          stringsAsFactors=FALSE)
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+                                      "Fusion_Fuc"=character(),stringsAsFactors=FALSE)
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[5]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[5]][[i]][[2]]
-        test_date[[i]] <- data_set[[5]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[5]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[5]][[i]][[2]]
+        validate_date[[i]] <- data_set[[5]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[5]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -319,20 +322,20 @@ count2 <- 1
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HOMO_AUD[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_AUD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                      activation_func[k], result_usd_PO3[[j]])
+                               # Result_AUD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                #                                      activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 +1
                         }
@@ -357,18 +360,18 @@ count2 <- 1
         for (i in 1:length(predictor_order)) {
         result_HOMO_CAD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                          stringsAsFactors=FALSE)
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+                                      "Fusion_Fuc"=character(),stringsAsFactors=FALSE)
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[6]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[6]][[i]][[2]]
-        test_date[[i]] <- data_set[[6]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[6]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[6]][[i]][[2]]
+        validate_date[[i]] <- data_set[[6]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[6]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -383,20 +386,20 @@ count2 <- 1
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HOMO_CAD[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_CAD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                      activation_func[k], result_usd_PO3[[j]])
+                                #Result_CAD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                     activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 +1
                         }
@@ -421,18 +424,18 @@ count2 <- 1
         for (i in 1:length(predictor_order)) {
                 result_HOMO_SGD <- data.frame("Predictor_Order"=numeric(),"Neurons"=numeric(),"RMSE"=numeric(),
                                           "MAE"=numeric(),"Activation_Function"=character(),"Learning_Rate"=numeric(),
-                                          stringsAsFactors=FALSE)
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+                                          "Fusion_Fuc"=character(),stringsAsFactors=FALSE)
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[7]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[7]][[i]][[2]]
-        test_date[[i]] <- data_set[[7]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[7]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[7]][[i]][[2]]
+        validate_date[[i]] <- data_set[[7]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[7]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -447,20 +450,20 @@ count2 <- 1
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HOMO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HOMO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HOMO_SGD[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_SGD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                      activation_func[k], result_usd_PO3[[j]])
+                                #Result_SGD_HOMO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                     activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 +1
                         }
@@ -483,19 +486,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_USD <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(),
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
      
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[1]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[1]][[i]][[2]]
-        test_date[[i]] <- data_set[[1]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[1]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[1]][[i]][[2]]
+        validate_date[[i]] <- data_set[[1]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[1]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -512,20 +516,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                              neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_USD[count2,] <-c(predictor_order[i],neurons[j],
-                                                            result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                            activation_func[k],learning_rate[l])
+                                                            result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                            activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_USD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                              #  Result_USD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                               #                                        activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
@@ -544,19 +548,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_GBP <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(),
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
         
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[2]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[2]][[i]][[2]]
-        test_date[[i]] <- data_set[[2]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[2]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[2]][[i]][[2]]
+        validate_date[[i]] <- data_set[[2]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[2]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -573,20 +578,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                               neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_GBP[count2,] <-c(predictor_order[i],neurons[j],
-                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                              activation_func[k],learning_rate[l])
+                                                              result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                              activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_GBP_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                               # Result_GBP_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                #                                       activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
@@ -606,19 +611,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_EUR <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(),
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
         
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[3]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[3]][[i]][[2]]
-        test_date[[i]] <- data_set[[3]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[3]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[3]][[i]][[2]]
+        validate_date[[i]] <- data_set[[3]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[3]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -635,20 +641,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                               neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_EUR[count2,] <-c(predictor_order[i],neurons[j],
-                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                              activation_func[k],learning_rate[l])
+                                                              result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                              activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_EUR_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                                #Result_EUR_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                      activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
@@ -667,19 +673,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_CHF <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), 
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
         
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[4]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[4]][[i]][[2]]
-        test_date[[i]] <- data_set[[4]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[4]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[4]][[i]][[2]]
+        validate_date[[i]] <- data_set[[4]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[4]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -696,20 +703,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                               neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_CHF[count2,] <-c(predictor_order[i],neurons[j],
-                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                              activation_func[k],learning_rate[l])
+                                                              result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                              activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_CHF_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                               # Result_CHF_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                #                                       activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
@@ -728,19 +735,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_AUD <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                        "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                        "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(),
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
         
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[5]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[5]][[i]][[2]]
-        test_date[[i]] <- data_set[[5]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[5]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[5]][[i]][[2]]
+        validate_date[[i]] <- data_set[[5]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[5]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -757,20 +765,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                               neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_AUD[count2,] <-c(predictor_order[i],neurons[j],
-                                                               result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                               activation_func[k],learning_rate[l])
+                                                               result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                               activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_AUD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                        activation_func[k], result_usd_PO3[[j]])
+                                #Result_AUD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                       activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
@@ -789,19 +797,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_CAD <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(),
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
         
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[6]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[6]][[i]][[2]]
-        test_date[[i]] <- data_set[[6]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[6]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[6]][[i]][[2]]
+        validate_date[[i]] <- data_set[[6]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[6]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -818,20 +827,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_CAD[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result_usd_CAD[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                               neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_CAD[count2,] <-c(predictor_order[i],neurons[j],
-                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                              activation_func[k],learning_rate[l])
+                                                              result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                              activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_SIN_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                                #Result_SIN_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                      activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
@@ -850,19 +859,20 @@ count <- 1
 count2 <- 1
 for (i in 1:length(predictor_order)) {
         result_HETRO_SGD <- data.frame("Predictor Order"= numeric(),"Neurons"= numeric(),"RMSE"=numeric(),
-                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), stringsAsFactors=F)
+                                       "MAE"=numeric(),"Activation Func"= character(),"Learning Rate"=numeric(), 
+                                       "Fusion_Fuc"=character(),stringsAsFactors=F)
         
-        usd_non_normalize_PO3 <- data.frame()
-        test_date_PO3 <- data.frame()
-        actual_usd_PO3 <- data.frame()
+        non_normalize_PO <- data.frame()
+        validate_date_PO <- data.frame()
+        actual_value_PO <- data.frame()
         
-        result_usd_PO3 <- list()
+        result__value_PO <- list()
         
         train_dataset[[i]] <- data_set[[7]][[i]][[1]]
-        test_dataset[[i]] <- data_set[[7]][[i]][[2]]
-        test_date[[i]] <- data_set[[7]][[i]][[4]]
-        usd_non_normalize[[i]]<- data_set[[7]][[i]][[6]]
-        actual_usd[[i]] <- test_dataset[[i]][,i+3]
+        validate_dataset[[i]] <- data_set[[7]][[i]][[2]]
+        validate_date[[i]] <- data_set[[7]][[i]][[4]]
+        non_normalize[[i]]<- data_set[[7]][[i]][[6]]
+        actual_value[[i]] <- validate_dataset[[i]][,i+3]
         
         if(predictor_order[i]==3){ neurons<-seq(2,20,1)}
         if(predictor_order[i]==4){ neurons<-seq(3,20,1)}
@@ -879,20 +889,20 @@ for (i in 1:length(predictor_order)) {
                 for (k in 1:length(activation_func)) {
                         
                         for (j in 1:length(neurons)) {
-                                train_dataset_PO3 <- train_dataset[[i]]
-                                test_dataset_PO3 <- test_dataset[[i]]
-                                test_date_PO3 <- test_date[[i]]
-                                usd_non_normalize_PO3 <-   usd_non_normalize[[i]]
-                                actual_usd_PO3 <-  actual_usd[[i]]
+                                train_dataset_PO <- train_dataset[[i]]
+                                validate_dataset_PO <- validate_dataset[[i]]
+                                validate_date_PO <- validate_date[[i]]
+                                non_normalize_PO <-   non_normalize[[i]]
+                                actual_value_PO <-  actual_value[[i]]
                                 
-                                result_usd_PO3[[j]] <-  HETRO(train_dataset_PO3,test_dataset_PO3, usd_non_normalize_PO3, 
+                                result__value_PO[[j]] <-  HETRO(train_dataset_PO,validate_dataset_PO, non_normalize_PO, 
                                                               neurons = neurons[j], predictor_order[i], activation_func[k],learning_rate[l])
                                 result_HETRO_SGD[count2,] <-c(predictor_order[i],neurons[j],
-                                                              result_usd_PO3[[j]][4],result_usd_PO3[[j]][5],
-                                                              activation_func[k],learning_rate[l])
+                                                              result__value_PO[[j]][4],result__value_PO[[j]][5],
+                                                              activation_func[k],learning_rate[l],result__value_PO[[j]][3])
                                 
-                                Result_SGD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
-                                                                       activation_func[k], result_usd_PO3[[j]])
+                               # Result_SGD_HETRO_LIST[[count]] <- list(predictor_order[i],neurons[j],learning_rate[l],
+                                 #                                      activation_func[k], result__value_PO[[j]])
                                 count <- count +1
                                 count2 <- count2 + 1
                         }
